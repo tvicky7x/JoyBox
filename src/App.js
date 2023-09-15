@@ -3,7 +3,7 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <h1 className=" text-center">Vicky 1</h1>
+      <h1 className=" text-center">Vicky favicon</h1>
       <svg
         viewBox="0 0 24 24"
         className=" fill-violet-800 h-3 w-3"
