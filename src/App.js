@@ -1,17 +1,37 @@
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import Navbar from "./Components/Navbar/Navbar";
+import Inbox from "./Pages/Inbox";
+import Starred from "./Pages/Starred";
+import Sent from "./Pages/Sent";
+import Drafts from "./Pages/Drafts";
+import Trash from "./Pages/Trash";
+import Attachments from "./Pages/Attachments";
+import Labels from "./Pages/Labels";
+import Error from "./Pages/Error";
+import Ball from "./Components/Ball/Ball";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className=" text-center">Vicky favicon</h1>
-      <svg
-        viewBox="0 0 24 24"
-        className=" fill-violet-800 h-3 w-3"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M21.0303301,2.96966991 C22.4277928,4.36713263 22.4277928,6.63286737 21.0303301,8.03033009 L9.06200371,19.9986565 C8.78512854,20.2755316 8.44079112,20.4753584 8.06302761,20.5783848 L2.94733805,21.9735729 C2.38746387,22.1262658 1.87373417,21.6125361 2.02642713,21.0526619 L3.4216152,15.9369724 C3.52464161,15.5592089 3.72446837,15.2148715 4.00134354,14.9379963 L15.9696699,2.96966991 C17.3671326,1.5722072 19.6328674,1.5722072 21.0303301,2.96966991 Z M15.0001717,6.06057288 L5.06200371,15.9986565 C4.96971199,16.0909482 4.90310306,16.2057273 4.86876093,16.3316485 L3.81891446,20.1810855 L7.6683515,19.1312391 C7.79427267,19.0968969 7.90905181,19.030288 8.00134354,18.9379963 L17.9391717,8.99957288 L15.0001717,6.06057288 Z M17.0303301,4.03033009 L16.0601717,4.99957288 L18.9991717,7.93957288 L19.9696699,6.96966991 C20.7813462,6.15799363 20.7813462,4.84200637 19.9696699,4.03033009 C19.1579936,3.21865381 17.8420064,3.21865381 17.0303301,4.03033009 Z"></path>
-      </svg>
-    </div>
+    <>
+      <div>
+        <Ball />
+        <Navbar />
+        <switch>
+          <Routes>
+            <Route path="/" exact element={<Navigate to={"/inbox"} />}></Route>
+            <Route path="/inbox" element={<Inbox />}></Route>
+            <Route path="/starred" element={<Starred />}></Route>
+            <Route path="/sent" element={<Sent />}></Route>
+            <Route path="/drafts" element={<Drafts />}></Route>
+            <Route path="/trash" element={<Trash />}></Route>
+            <Route path="/attachments" element={<Attachments />}></Route>
+            <Route path="/labels" element={<Labels />}></Route>
+            <Route path="*" element={<Error />}></Route>
+          </Routes>
+        </switch>
+      </div>
+    </>
   );
 }
 
