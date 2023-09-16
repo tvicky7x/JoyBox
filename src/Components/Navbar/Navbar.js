@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../Assets/orignal-joybox.png";
 import { useDispatch, useSelector } from "react-redux";
 import { NavbarAction } from "../../Store/NavbarSlice";
 import NavItem from "./NavItem";
