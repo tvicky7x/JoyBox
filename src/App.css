@@ -1,8 +1,64 @@
 body {
-  background-color: #020617 !important;
+  /* background-color: #020617 !important; */
+  /* background-image: url("./Assets/leonard-cotte-c1Jp-fo53U8-unsplash.jpg");
+  background-size: cover;
+  background-position: center; */
   font-family: "Noto Sans", sans-serif;
 }
 
 .headFont {
   font-family: "Rubik", sans-serif;
 }
+/* .activeNav div::before {
+  content: "";
+  position: absolute;
+  background-color: crimson;
+  right: 0;
+  top: 100%;
+  height: 50px;
+  width: 12px;
+  border-top-right-radius: 25px;
+  box-shadow: 0 -10px 0 0 #ffff;
+
+} */
+
+.activeNav div::before {
+  content: "";
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  right: 0;
+  top: 100%;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 12px,
+    rgba(255, 255, 255, 0.4) 12px
+  );
+  rotate: 90deg;
+}
+
+.activeNav div::after {
+  content: "";
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  right: 0;
+  bottom: 100%;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 12px,
+    rgba(255, 255, 255, 0.4) 12px
+  );
+  rotate: 180deg;
+}
+
+/* .activeNav div::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  height: 50px;
+  width: 12px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0 12px 0 0 #ffff;
+} */
