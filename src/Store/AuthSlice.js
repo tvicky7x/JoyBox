@@ -11,14 +11,18 @@ const initialState = {
   },
   isStart: true,
   isLogging: true,
+  isForgot: false,
 };
 
 const AuthSlice = createSlice({
   name: "AuthSlice",
   initialState,
   reducers: {
-    alternateLogging(states, actions) {
+    alternateLogging(states) {
       states.isLogging = !states.isLogging;
+    },
+    alternateForgot(states) {
+      states.isForgot = !states.isForgot;
     },
   },
 });
