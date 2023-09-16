@@ -63,21 +63,6 @@ body {
   box-shadow: 0 12px 0 0 #ffff;
 } */
 
-.afterNav::after {
-  content: "";
-  position: absolute;
-  height: 12px;
-  width: 12px;
-  right: 0;
-  top: 0;
-  background-image: radial-gradient(
-    circle at 100% 100%,
-    transparent 12px,
-    rgba(255, 255, 255, 0.4) 12px
-  );
-  rotate: 90deg;
-}
-
 @media screen and (min-width: 640px) {
   .afterNav::before {
     content: "";
@@ -92,5 +77,20 @@ body {
       rgba(255, 255, 255, 0.4) 12px
     );
     rotate: 180deg;
+  }
+
+  .afterNav::after {
+    content: "";
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    right: 0;
+    top: 0;
+    background-image: radial-gradient(
+      circle at 100% 100%,
+      transparent 12px,
+      rgba(255, 255, 255, 0.4) 12px
+    );
+    rotate: 90deg;
   }
 }

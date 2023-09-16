@@ -7,6 +7,8 @@ import Trash from "./Pages/Trash";
 import Inbox from "./Pages/Inbox";
 import Auth from "./Pages/Auth";
 import Drafts from "./Pages/Drafts";
+import Profile from "./Pages/Profile";
+import Setting from "./Pages/Setting";
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/sent" element={<Sent />} />
           <Route path="/drafts" element={<Drafts />} />
-          <Route path="/trash" element={<Trash />} />{" "}
+          <Route path="/trash" element={<Trash />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Setting />} />
         </Route>
         <Route path="/auth" element={<Auth />} />
         <Route path="*" element={<Navigate to={"/"} />} />
