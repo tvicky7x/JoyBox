@@ -45,7 +45,7 @@ function Navbar() {
   const dispatch = useDispatch();
   const isNavOpen = useSelector((states) => states.nav.isNavOpen);
   return (
-    <div className="sm:col-span-2 py-3 ps-2 pe-2 sm:pe-0 row-span-1">
+    <div className=" relative sm:col-span-2 py-3 ps-2 pe-2 sm:pe-0 row-span-1 afterNav">
       <div className="flex flex-col justify-between h-full">
         <div className="flex items-center justify-between sm:justify-center">
           <h1 className=" headFont font-medium text-white text-xl drop-shadow-md">
