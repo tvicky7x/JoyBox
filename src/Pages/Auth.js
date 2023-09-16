@@ -15,7 +15,7 @@ function Auth() {
         style={{ backgroundImage: `url(${currentBg.bgUrl})` }}
       >
         <div className="w-screen h-screen backdrop-blur flex flex-col items-center justify-center py-10 px-4">
-          <p className=" headFont font-semibold text-xl -mb-1 text-white">
+          <p className=" headFont font-semibold text-xl leading-4 text-white">
             JoyBox
           </p>
           <p className="mb-3 text-white font-light">Bring Joy to you Inbox</p>
@@ -30,7 +30,7 @@ function Auth() {
                 : "Forgot Password"}
             </h1>
             {isForgot && (
-              <p className="mt-2.5 text-slate-800">
+              <p className="mt-2.5 sm:text-slate-800 text-slate-700">
                 Password reset emails will be sent to your provided email
                 address
               </p>
@@ -107,7 +107,7 @@ function Auth() {
             {!isForgot && (
               <button
                 onClick={() => dispatch(AuthAction.alternateLogging())}
-                className=" bg-white w-full py-2 rounded  font-medium bg-opacity-75 hover:bg-opacity-95 "
+                className=" bg-white w-full py-2 rounded  font-medium bg-opacity-50 hover:bg-opacity-80 "
               >
                 {isLogging
                   ? "Don't have an account? Sign Up"
