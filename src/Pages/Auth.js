@@ -67,7 +67,7 @@ function Auth() {
 
             <button
               onClick={() => dispatch(AuthAction.alternateLogging())}
-              className=" bg-blue-50 w-full py-2 rounded bg-opacity-60 font-medium hover:bg-opacity-95"
+              className=" bg-white w-full py-2 rounded bg-opacity-80 font-medium hover:bg-opacity-95"
             >
               {isLogging
                 ? "Don't have an account? Sign Up"
