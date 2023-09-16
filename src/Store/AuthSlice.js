@@ -10,12 +10,17 @@ const initialState = {
     uniqueId: "",
   },
   isStart: true,
+  isLogging: true,
 };
 
 const AuthSlice = createSlice({
   name: "AuthSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    alternateLogging(states, actions) {
+      states.isLogging = !states.isLogging;
+    },
+  },
 });
 
 export const AuthAction = AuthSlice.actions;
