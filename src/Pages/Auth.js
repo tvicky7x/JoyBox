@@ -25,21 +25,21 @@ function Auth() {
                   </label>
                   <input
                     type="text"
-                    className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                    className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-300 focus:border-blue-500"
                   />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="">Password</label>
                   <input
                     type="password"
-                    className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                    className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-300 focus:border-blue-500"
                   />
                 </div>
                 <div className="">
                   <label htmlFor="">Confirm Password</label>
                   <input
                     type="password"
-                    className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                    className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-300 focus:border-blue-500"
                   />
                 </div>
                 <div className="mt-5">
