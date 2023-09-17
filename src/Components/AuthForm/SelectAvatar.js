@@ -11,7 +11,7 @@ function SelectAvatar() {
   return (
     <div className="text-slate-950 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
       <p className=" headFont text-center text-lg">Select Profile Image</p>
-      <div className=" mt-3 grid grid-rows-3 gap-3 grid-cols-4 grid-flow-col">
+      <div className=" mt-3 grid grid-rows-3 gap-3 grid-cols-4 grid-flow-row">
         {avatars.map((item, index) => {
           return (
             <img

@@ -4,6 +4,7 @@ import { AuthAction } from "../../Store/AuthSlice";
 import axios from "axios";
 import SelectAvatar from "./SelectAvatar";
 import { GeneralAction } from "../../Store/GeneralSlice";
+import ImageContainer from "../Container/ImageContainer";
 
 function AuthForm() {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ function AuthForm() {
   const isForgot = useSelector((states) => states.auth.isForgot);
   const avatarState = useSelector((states) => states.general.avatarState);
   const currentAvatar = useSelector((states) => states.general.currentAvatar);
+  const apiToken = useSelector((states) => states.auth.apiToken);
+  const userInfo = useSelector((states) => states.auth.userInfo);
+
+  console.log(userInfo);
 
   // Refs
   const nameInput = useRef();
@@ -24,13 +29,13 @@ function AuthForm() {
     e.preventDefault();
     const email = emailInput.current.value;
     if (!isForgot) {
-      const name = nameInput.current.value;
       const password = passwordInput.current.value;
       if (!isLogging) {
+        const name = nameInput.current.value;
         const confirm = confirmInput.current.value;
         if (password === confirm) {
           const response = await axios.post(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAYLfpvm4HItUrb6rxmYb_lnz5-PT2Zsyw",
+            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiToken}`,
             {
               email,
               password,
@@ -39,7 +44,7 @@ function AuthForm() {
           );
           const idToken = response.data.idToken;
           await axios.post(
-            "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAYLfpvm4HItUrb6rxmYb_lnz5-PT2Zsyw",
+            `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiToken}`,
             {
               idToken,
               displayName: name,
@@ -53,8 +58,33 @@ function AuthForm() {
           alert("Incorrect Confirm Password");
         }
       } else {
+        const response = await axios.post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
+          { email, password, returnSecureToken: true }
+        );
+        const reply = await axios.post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiToken}`,
+          { idToken: response.data.idToken }
+        );
+        const userInfo = {
+          idToken: response.data.idToken,
+          name: reply.data.users[0].displayName,
+          email: reply.data.users[0].email,
+          emailVerified: reply.data.users[0].emailVerified,
+          networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
+          photoUrl: reply.data.users[0].photoUrl,
+          uniqueId: "",
+        };
+        dispatch(AuthAction.logIn({ userInfo }));
+        e.target.reset();
       }
     } else {
+      await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiToken}`,
+        { requestType: "PASSWORD_RESET", email }
+      );
+      e.target.reset();
+      dispatch(AuthAction.alternateForgot());
     }
   }
 
@@ -65,14 +95,20 @@ function AuthForm() {
         style={{ backgroundImage: `url(${currentBg.bgUrl})` }}
       >
         <div className="w-screen h-screen backdrop-blur flex flex-col items-center justify-center py-10 px-4">
+          {/* Joy Box Text Above */}
           <p className=" headFont font-semibold text-xl leading-4 text-white">
             JoyBox
           </p>
           <p className="mb-3 text-white font-light">Bring Joy to you Inbox</p>
+
+          {/* Avatar Form Page */}
           {avatarState && <SelectAvatar />}
+
+          {/* Login and Signup page */}
           {!avatarState && (
             <>
               <div className="text-slate-950 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
+                {/* Heading of a form */}
                 <h1 className=" text-blue-500 headFont font-medium text-2xl text-center">
                   {!isForgot
                     ? isLogging
@@ -80,28 +116,29 @@ function AuthForm() {
                       : "Sign Up"
                     : "Forgot Password"}
                 </h1>
+
+                {/* Forgot Massage */}
                 {isForgot && (
-                  <p className="mt-2.5 text-slate-700">
-                    Password reset emails will be sent to your provided email
-                    address
+                  <p className="mt-2.5 mb-2.5 text-slate-700">
+                    Password reset email will be sent to your provided email
+                    address.
                   </p>
                 )}
+
+                {/* Current Avatar Image */}
                 {!isLogging && !isForgot && (
                   <div className=" mt-2 flex flex-col items-center">
-                    <img
-                      className="ring-2 ring-blue-300 w-20 h-20 object-cover rounded-full"
-                      src={currentAvatar}
-                      alt=""
-                    />
+                    <ImageContainer />
                     <button
                       onClick={() => dispatch(GeneralAction.openAvatar())}
-                      className="mt-0.5 font-medium opacity-80 text-blue-500 hover:opacity-100 hover:text-blue-600"
+                      className="mt-0.5 font-medium opacity-80 text-blue-500 hover:opacity-95 hover:text-blue-600"
                     >
                       Change Profile Image
                     </button>
                   </div>
                 )}
 
+                {/* Actual From Element */}
                 <div className="mb-4 mt-1">
                   <form action="" onSubmit={submitHandler}>
                     {!isForgot && !isLogging && (
@@ -151,6 +188,7 @@ function AuthForm() {
                       </div>
                     )}
 
+                    {/* Submit button with forgot button */}
                     <div className="mt-5 text-center">
                       <button
                         type="submit"
@@ -174,6 +212,8 @@ function AuthForm() {
                     </div>
                   </form>
                 </div>
+
+                {/* Alternate isLogging state Button */}
                 {!isForgot && (
                   <button
                     onClick={() => dispatch(AuthAction.alternateLogging())}

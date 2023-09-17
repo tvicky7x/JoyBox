@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: null,
   userInfo: {
+    idToken: "",
     name: "",
     email: "",
+    emailVerified: false,
     networkEmail: "",
     photoUrl: "",
     uniqueId: "",
   },
-
-  isStart: true,
   isLogging: true,
   isForgot: false,
+  apiToken: "AIzaSyAYLfpvm4HItUrb6rxmYb_lnz5-PT2Zsyw",
 };
 
 const AuthSlice = createSlice({
@@ -24,6 +24,9 @@ const AuthSlice = createSlice({
     },
     alternateForgot(states) {
       states.isForgot = !states.isForgot;
+    },
+    logIn(states, actions) {
+      states.userInfo = actions.payload.userInfo;
     },
   },
 });
