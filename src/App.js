@@ -10,10 +10,22 @@ import Drafts from "./Pages/Drafts";
 import Profile from "./Pages/Profile";
 import Setting from "./Pages/Setting";
 import Loader from "./Components/Loader/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUserInfo } from "./Store/AuthAction";
 
 function App() {
+  const dispatch = useDispatch();
   const isLoading = useSelector((states) => states.general.isLoading);
+
+  //  useEffect
+  useEffect(() => {
+    const idToken = localStorage.getItem("token");
+    if (idToken) {
+      dispatch(getUserInfo(idToken));
+    }
+  }, [dispatch]);
+
   return (
     <>
       {isLoading && <Loader />}

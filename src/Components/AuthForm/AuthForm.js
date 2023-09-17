@@ -6,7 +6,7 @@ import SelectAvatar from "./SelectAvatar";
 import { GeneralAction } from "../../Store/GeneralSlice";
 import ImageContainer from "../Container/ImageContainer";
 import ButtonPrimary from "../Container/ButtonPrimary";
-import { getUserInfo } from "../../Store/AuthAction";
+import { getUserInfo, logoutHandler } from "../../Store/AuthAction";
 import { Navigate } from "react-router-dom";
 
 function AuthForm() {
@@ -36,61 +36,70 @@ function AuthForm() {
         const name = nameInput.current.value;
         const confirm = confirmInput.current.value;
         if (password === confirm) {
-          const response = await axios.post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiToken}`,
-            {
-              email,
-              password,
-              returnSecureToken: true,
-            }
-          );
-          const idToken = response.data.idToken;
-          await axios.post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiToken}`,
-            {
-              idToken,
-              displayName: name,
-              photoUrl: currentAvatar,
-              returnSecureToken: false,
-            }
-          );
-          e.target.reset();
-          dispatch(AuthAction.alternateLogging());
+          try {
+            const response = await axios.post(
+              `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiToken}`,
+              {
+                email,
+                password,
+                returnSecureToken: true,
+              }
+            );
+            const idToken = response.data.idToken;
+            await axios.post(
+              `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiToken}`,
+              {
+                idToken,
+                displayName: name,
+                photoUrl: currentAvatar,
+                returnSecureToken: false,
+              }
+            );
+            e.target.reset();
+            dispatch(AuthAction.alternateLogging());
+          } catch (error) {
+            alert("SignUp Error");
+          }
         } else {
           alert("Incorrect Confirm Password");
         }
       } else {
-        dispatch(GeneralAction.openLoading());
-        const response = await axios.post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
-          { email, password, returnSecureToken: true }
-        );
-        localStorage.setItem("token", response.data.idToken);
-        setTimeout(() => {
-          localStorage.removeItem("token");
-        }, 1000 * 60 * 15);
-        const reply = await axios.post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiToken}`,
-          { idToken: response.data.idToken }
-        );
-        const newUserInfo = {
-          idToken: response.data.idToken,
-          name: reply.data.users[0].displayName,
-          email: reply.data.users[0].email,
-          emailVerified: reply.data.users[0].emailVerified,
-          networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
-          photoUrl: reply.data.users[0].photoUrl,
-          uniqueId: "",
-        };
-        if (!reply.data.users[0].emailVerified.emailVerified) {
-          await axios.post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiToken}`,
-            { requestType: "VERIFY_EMAIL", idToken: response.data.idToken }
+        try {
+          const response = await axios.post(
+            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
+            { email, password, returnSecureToken: true }
           );
+          localStorage.setItem("token", response.data.idToken);
+          setTimeout(() => {
+            localStorage.removeItem("token");
+          }, 1000 * 60 * 15);
+          const reply = await axios.post(
+            `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiToken}`,
+            { idToken: response.data.idToken }
+          );
+          const newUserInfo = {
+            idToken: response.data.idToken,
+            name: reply.data.users[0].displayName,
+            email: reply.data.users[0].email,
+            emailVerified: reply.data.users[0].emailVerified,
+            networkEmail: reply.data.users[0].email.replace(
+              /[^a-zA-Z0-9]/gi,
+              ""
+            ),
+            photoUrl: reply.data.users[0].photoUrl,
+            uniqueId: "",
+          };
+          if (!reply.data.users[0].emailVerified.emailVerified) {
+            await axios.post(
+              `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiToken}`,
+              { requestType: "VERIFY_EMAIL", idToken: response.data.idToken }
+            );
+          }
+          e.target.reset();
+          dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
+        } catch (error) {
+          alert("Authentication Error");
         }
-        e.target.reset();
-        dispatch(AuthAction.logIn({ userInfo: newUserInfo }));
-        dispatch(GeneralAction.closeLoading());
       }
     } else {
       await axios.post(
@@ -122,7 +131,7 @@ function AuthForm() {
           {/* Avatar Form Page */}
           {avatarState && <SelectAvatar />}
 
-          {/* Login and Signup page */}
+          {/* updateUser and Signup page */}
           {!avatarState && (
             <>
               <div className="text-slate-950 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
@@ -157,22 +166,7 @@ function AuthForm() {
                       <button
                         type="button"
                         className=" mt-2"
-                        onClick={() => {
-                          localStorage.removeItem("token");
-                          dispatch(
-                            AuthAction.logIn({
-                              userInfo: {
-                                idToken: "",
-                                name: "",
-                                email: "",
-                                emailVerified: false,
-                                networkEmail: "",
-                                photoUrl: "",
-                                uniqueId: "",
-                              },
-                            })
-                          );
-                        }}
+                        onClick={() => dispatch(logoutHandler())}
                       >
                         Go Back
                       </button>

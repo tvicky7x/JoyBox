@@ -25,7 +25,7 @@ const AuthSlice = createSlice({
     alternateForgot(states) {
       states.isForgot = !states.isForgot;
     },
-    logIn(states, actions) {
+    updateUser(states, actions) {
       states.userInfo = actions.payload.userInfo;
     },
   },
