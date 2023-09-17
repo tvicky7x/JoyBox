@@ -8,7 +8,7 @@ function Root() {
     <>
       <MainContainer>
         <Navbar />
-        <div className=" relative bg-white bg-opacity-40 sm:col-start-3 sm:col-span-full row-span-full row-start-2 sm:rounded-none rounded-lg">
+        <div className=" relative bg-white bg-opacity-70 sm:col-start-3 sm:col-span-full row-span-full row-start-2 sm:rounded-none rounded-lg">
           <Outlet />
           <Link to={"/auth"}>Test</Link>
         </div>

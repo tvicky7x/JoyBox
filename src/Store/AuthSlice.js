@@ -9,6 +9,7 @@ const initialState = {
     photoUrl: "",
     uniqueId: "",
   },
+
   isStart: true,
   isLogging: true,
   isForgot: false,

@@ -8,8 +8,8 @@ function NavItem({ navData }) {
         to={navData.path}
         className={({ isActive }) => {
           return isActive
-            ? "activeNav  text-blue-700 fill-blue-700 bg-white bg-opacity-40"
-            : " text-slate-950 fill-slate-950 font-light";
+            ? "activeNav  text-blue-800 fill-blue-800 bg-white bg-opacity-70"
+            : " text-white fill-white font-light opacity-90";
         }}
       >
         <div className="headFont relative bg-inherit flex items-center justify-start py-2 ps-4 space-x-2 rounded-s-lg">

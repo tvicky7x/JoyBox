@@ -49,7 +49,7 @@ function Navbar() {
     <div className=" relative sm:col-span-2 py-3 ps-2 pe-2 sm:pe-0 row-span-1 afterNav">
       <div className="flex flex-col justify-between h-full">
         <div className=" flex items-center justify-between sm:justify-center">
-          <h1 className="headFont font-medium text-slate-950 text-xl">
+          <h1 className="headFont font-medium text-white opacity-90 text-xl">
             Joy Box
           </h1>
 
@@ -60,7 +60,7 @@ function Navbar() {
             >
               <svg
                 viewBox="0 0 20 20"
-                className=" w-7 h-7 stroke-slate-900 fill-slate-900"
+                className=" w-7 h-7 stroke-white fill-white opacity-90"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H17.5C17.7761 4 18 4.22386 18 4.5C18 4.77614 17.7761 5 17.5 5H2.5C2.22386 5 2 4.77614 2 4.5Z" />
@@ -77,7 +77,7 @@ function Navbar() {
             >
               <svg
                 viewBox="0 0 28 28"
-                className=" w-6 h-6 stroke-slate-900 fill-slate-900"
+                className=" w-6 h-6 stroke-white fill-white opacity-90"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M3.52499419,3.71761187 L3.61611652,3.61611652 C4.0717282,3.16050485 4.79154862,3.13013074 5.28238813,3.52499419 L5.38388348,3.61611652 L14,12.233 L22.6161165,3.61611652 C23.1042719,3.12796116 23.8957281,3.12796116 24.3838835,3.61611652 C24.8720388,4.10427189 24.8720388,4.89572811 24.3838835,5.38388348 L15.767,14 L24.3838835,22.6161165 C24.8394952,23.0717282 24.8698693,23.7915486 24.4750058,24.2823881 L24.3838835,24.3838835 C23.9282718,24.8394952 23.2084514,24.8698693 22.7176119,24.4750058 L22.6161165,24.3838835 L14,15.767 L5.38388348,24.3838835 C4.89572811,24.8720388 4.10427189,24.8720388 3.61611652,24.3838835 C3.12796116,23.8957281 3.12796116,23.1042719 3.61611652,22.6161165 L12.233,14 L3.61611652,5.38388348 C3.16050485,4.9282718 3.13013074,4.20845138 3.52499419,3.71761187 L3.61611652,3.61611652 L3.52499419,3.71761187 Z"></path>
@@ -88,15 +88,17 @@ function Navbar() {
         <div className=" hidden sm:block">
           <ul>
             {NavData.map((item) => {
-              return <NavItem navData={item} />;
+              return <NavItem key={item.navName} navData={item} />;
             })}
           </ul>
         </div>
-        <div className=" hidden  sm:flex items-center justify-center space-x-2">
+        <div className=" hidden  sm:flex items-center justify-center space-x-3">
           <NavLink
             to={"/settings"}
             className={({ isActive }) => {
-              return isActive ? "  fill-blue-700" : " fill-slate-950 ";
+              return isActive
+                ? "fill-slate-950 opacity-90"
+                : "fill-white opacity-90";
             }}
           >
             <svg
@@ -110,7 +112,9 @@ function Navbar() {
           <NavLink
             to={"/profile"}
             className={({ isActive }) => {
-              return isActive ? "  fill-blue-700" : " fill-slate-950 ";
+              return isActive
+                ? "fill-slate-950 opacity-90"
+                : "fill-white opacity-90";
             }}
           >
             <svg
@@ -123,7 +127,7 @@ function Navbar() {
           </NavLink>
           <button>
             <svg
-              className="w-5 -rotate-90"
+              className="w-5 -rotate-90 fill-white opacity-90"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >

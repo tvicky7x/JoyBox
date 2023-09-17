@@ -32,7 +32,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 12px,
-    rgba(255, 255, 255, 0.4) 12px
+    rgba(255, 255, 255, 0.7) 12px
   );
   rotate: 90deg;
 }
@@ -47,7 +47,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 12px,
-    rgba(255, 255, 255, 0.4) 12px
+    rgba(255, 255, 255, 0.7) 12px
   );
   rotate: 180deg;
 }
@@ -74,7 +74,7 @@ body {
     background-image: radial-gradient(
       circle at 100% 100%,
       transparent 12px,
-      rgba(255, 255, 255, 0.4) 12px
+      rgba(255, 255, 255, 0.7) 12px
     );
     rotate: 180deg;
   }
@@ -89,7 +89,7 @@ body {
     background-image: radial-gradient(
       circle at 100% 100%,
       transparent 12px,
-      rgba(255, 255, 255, 0.4) 12px
+      rgba(255, 255, 255, 0.7) 12px
     );
     rotate: 90deg;
   }
