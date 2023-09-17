@@ -13,6 +13,7 @@ import Setting from "./Pages/Setting";
 function App() {
   return (
     <>
+      {/* <div className=" fixed w-full h-full bg-black z-50"></div> */}
       <Routes>
         <Route path="/" element={<Root />}>
           <Route index element={<Inbox />} />

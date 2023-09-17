@@ -5,6 +5,8 @@ import axios from "axios";
 import SelectAvatar from "./SelectAvatar";
 import { GeneralAction } from "../../Store/GeneralSlice";
 import ImageContainer from "../Container/ImageContainer";
+import ButtonPrimary from "../Container/ButtonPrimary";
+import { getUserInfo } from "../../Store/AuthAction";
 
 function AuthForm() {
   const dispatch = useDispatch();
@@ -15,8 +17,6 @@ function AuthForm() {
   const currentAvatar = useSelector((states) => states.general.currentAvatar);
   const apiToken = useSelector((states) => states.auth.apiToken);
   const userInfo = useSelector((states) => states.auth.userInfo);
-
-  console.log(userInfo);
 
   // Refs
   const nameInput = useRef();
@@ -62,11 +62,15 @@ function AuthForm() {
           `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
           { email, password, returnSecureToken: true }
         );
+        localStorage.setItem("token", response.data.idToken);
+        setTimeout(() => {
+          localStorage.removeItem("token");
+        }, 1000 * 60 * 15);
         const reply = await axios.post(
           `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiToken}`,
           { idToken: response.data.idToken }
         );
-        const userInfo = {
+        const newUserInfo = {
           idToken: response.data.idToken,
           name: reply.data.users[0].displayName,
           email: reply.data.users[0].email,
@@ -75,7 +79,14 @@ function AuthForm() {
           photoUrl: reply.data.users[0].photoUrl,
           uniqueId: "",
         };
-        dispatch(AuthAction.logIn({ userInfo }));
+        if (!reply.data.users[0].emailVerified.emailVerified) {
+          const get = await axios.post(
+            `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiToken}`,
+            { requestType: "VERIFY_EMAIL", idToken: response.data.idToken }
+          );
+          console.log(get);
+        }
+        dispatch(AuthAction.logIn({ userInfo: newUserInfo }));
         e.target.reset();
       }
     } else {
@@ -110,119 +121,165 @@ function AuthForm() {
               <div className="text-slate-950 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
                 {/* Heading of a form */}
                 <h1 className=" text-blue-500 headFont font-medium text-2xl text-center">
-                  {!isForgot
+                  {userInfo.idToken && !userInfo.emailVerified
+                    ? "Verify Email"
+                    : !isForgot
                     ? isLogging
                       ? "Log In"
                       : "Sign Up"
                     : "Forgot Password"}
                 </h1>
-
-                {/* Forgot Massage */}
-                {isForgot && (
-                  <p className="mt-2.5 mb-2.5 text-slate-700">
-                    Password reset email will be sent to your provided email
-                    address.
-                  </p>
-                )}
-
-                {/* Current Avatar Image */}
-                {!isLogging && !isForgot && (
-                  <div className=" mt-2 flex flex-col items-center">
-                    <ImageContainer />
-                    <button
-                      onClick={() => dispatch(GeneralAction.openAvatar())}
-                      className="mt-0.5 font-medium opacity-80 text-blue-500 hover:opacity-95 hover:text-blue-600"
-                    >
-                      Change Profile Image
-                    </button>
-                  </div>
-                )}
-
-                {/* Actual From Element */}
-                <div className="mb-4 mt-1">
-                  <form action="" onSubmit={submitHandler}>
-                    {!isForgot && !isLogging && (
-                      <div className="mb-3">
-                        <label htmlFor="" className="ps-1">
-                          Name
-                        </label>
-                        <input
-                          ref={nameInput}
-                          required
-                          type="text"
-                          className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
-                        />
-                      </div>
-                    )}
-                    <div className="mb-3">
-                      <label htmlFor="" className="ps-1">
-                        Email
-                      </label>
-                      <input
-                        ref={emailInput}
-                        required
-                        type="text"
-                        className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
-                      />
-                    </div>
-                    {!isForgot && (
-                      <div className="mb-3">
-                        <label htmlFor="">Password</label>
-                        <input
-                          ref={passwordInput}
-                          required
-                          type="password"
-                          className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
-                        />
-                      </div>
-                    )}
-                    {!isForgot && !isLogging && (
-                      <div className="">
-                        <label htmlFor="">Confirm Password</label>
-                        <input
-                          ref={confirmInput}
-                          required
-                          type="password"
-                          className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
-                        />
-                      </div>
-                    )}
-
-                    {/* Submit button with forgot button */}
-                    <div className="mt-5 text-center">
-                      <button
-                        type="submit"
-                        className=" bg-blue-500 w-full py-1.5 font-medium rounded text-blue-50 hover:bg-blue-600"
+                {userInfo.idToken && !userInfo.emailVerified ? (
+                  <>
+                    <p className="mt-2.5 text-slate-700">
+                      You have received a verification email on the email
+                      address you provided. Please check it.
+                    </p>
+                    <p className=" mt-2 mb-2.5 text-slate-700">
+                      To continue, click here.
+                    </p>
+                    <div className=" mt-5 text-center">
+                      <ButtonPrimary
+                        className="w-full"
+                        onClick={() =>
+                          dispatch(getUserInfo(userInfo.idToken, apiToken))
+                        }
                       >
-                        {!isForgot
-                          ? isLogging
-                            ? "Log In"
-                            : "Sign Up"
-                          : "Reset Password"}
+                        Verification Done
+                      </ButtonPrimary>
+                      <button
+                        type="button"
+                        className=" mt-2"
+                        onClick={() => {
+                          localStorage.removeItem("token");
+                          dispatch(
+                            AuthAction.logIn({
+                              userInfo: {
+                                idToken: "",
+                                name: "",
+                                email: "",
+                                emailVerified: false,
+                                networkEmail: "",
+                                photoUrl: "",
+                                uniqueId: "",
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        Go Back
                       </button>
-                      {isLogging && (
-                        <button
-                          type="button"
-                          className=" mt-2"
-                          onClick={() => dispatch(AuthAction.alternateForgot())}
-                        >
-                          {!isForgot ? "Forgot password" : "Go Back"}
-                        </button>
-                      )}
                     </div>
-                  </form>
-                </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Forgot Massage */}
+                    {isForgot && (
+                      <p className="mt-2.5 mb-2.5 text-slate-700">
+                        Password reset email will be sent to your provided email
+                        address.
+                      </p>
+                    )}
 
-                {/* Alternate isLogging state Button */}
-                {!isForgot && (
-                  <button
-                    onClick={() => dispatch(AuthAction.alternateLogging())}
-                    className=" bg-white w-full py-2 rounded text-slate-950 text-opacity-80 font-medium bg-opacity-60 hover:bg-opacity-90 hover:text-opacity-95"
-                  >
-                    {isLogging
-                      ? "Don't have an account? Sign Up"
-                      : "Have an account? Log In"}
-                  </button>
+                    {/* Current Avatar Image */}
+                    {!isLogging && !isForgot && (
+                      <div className=" mt-2 flex flex-col items-center">
+                        <ImageContainer />
+                        <button
+                          onClick={() => dispatch(GeneralAction.openAvatar())}
+                          className="mt-0.5 font-medium opacity-80 text-blue-500 hover:opacity-95 hover:text-blue-600"
+                        >
+                          Change Profile Image
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Actual From Element */}
+                    <div className="mb-4 mt-1">
+                      <form action="" onSubmit={submitHandler}>
+                        {!isForgot && !isLogging && (
+                          <div className="mb-3">
+                            <label htmlFor="" className="ps-1">
+                              Name
+                            </label>
+                            <input
+                              ref={nameInput}
+                              required
+                              type="text"
+                              className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                            />
+                          </div>
+                        )}
+                        <div className="mb-3">
+                          <label htmlFor="" className="ps-1">
+                            Email
+                          </label>
+                          <input
+                            ref={emailInput}
+                            required
+                            type="text"
+                            className=" font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                          />
+                        </div>
+                        {!isForgot && (
+                          <div className="mb-3">
+                            <label htmlFor="">Password</label>
+                            <input
+                              ref={passwordInput}
+                              required
+                              type="password"
+                              className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                            />
+                          </div>
+                        )}
+                        {!isForgot && !isLogging && (
+                          <div className="">
+                            <label htmlFor="">Confirm Password</label>
+                            <input
+                              ref={confirmInput}
+                              required
+                              type="password"
+                              className="font-medium bg-transparent focus:outline-none w-full h-6 px-1 pb-1 border-0 border-b-2 border-slate-400 focus:border-blue-500"
+                            />
+                          </div>
+                        )}
+
+                        {/* Submit button with forgot button */}
+                        <div className="mt-5 text-center">
+                          <ButtonPrimary className="w-full" type="submit">
+                            {!isForgot
+                              ? isLogging
+                                ? "Log In"
+                                : "Sign Up"
+                              : "Reset Password"}
+                          </ButtonPrimary>
+                          {isLogging && (
+                            <button
+                              type="button"
+                              className=" mt-2"
+                              onClick={() =>
+                                dispatch(AuthAction.alternateForgot())
+                              }
+                            >
+                              {!isForgot ? "Forgot password" : "Go Back"}
+                            </button>
+                          )}
+                        </div>
+                      </form>
+                    </div>
+
+                    {/* Alternate isLogging state Button */}
+                    {!isForgot && (
+                      <button
+                        onClick={() => dispatch(AuthAction.alternateLogging())}
+                        className=" bg-white w-full py-2 rounded text-slate-950 text-opacity-90 font-medium bg-opacity-50 hover:bg-opacity-90 hover:text-opacity-95"
+                      >
+                        {isLogging
+                          ? "Don't have an account? Sign Up"
+                          : "Have an account? Log In"}
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
             </>
