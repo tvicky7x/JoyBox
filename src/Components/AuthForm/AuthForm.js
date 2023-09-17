@@ -217,7 +217,7 @@ function AuthForm() {
                 {!isForgot && (
                   <button
                     onClick={() => dispatch(AuthAction.alternateLogging())}
-                    className=" bg-white w-full py-2 rounded  font-medium bg-opacity-50 hover:bg-opacity-80 "
+                    className=" bg-white w-full py-2 rounded text-slate-950 text-opacity-80 font-medium bg-opacity-50 hover:bg-opacity-80 hover:text-opacity-95"
                   >
                     {isLogging
                       ? "Don't have an account? Sign Up"
