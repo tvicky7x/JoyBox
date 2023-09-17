@@ -9,11 +9,14 @@ import Auth from "./Pages/Auth";
 import Drafts from "./Pages/Drafts";
 import Profile from "./Pages/Profile";
 import Setting from "./Pages/Setting";
+import Loader from "./Components/Loader/Loader";
+import { useSelector } from "react-redux";
 
 function App() {
+  const isLoading = useSelector((states) => states.general.isLoading);
   return (
     <>
-      {/* <div className=" fixed w-full h-full bg-black z-50"></div> */}
+      {isLoading && <Loader />}
       <Routes>
         <Route path="/" element={<Root />}>
           <Route index element={<Inbox />} />

@@ -7,6 +7,7 @@ import { GeneralAction } from "../../Store/GeneralSlice";
 import ImageContainer from "../Container/ImageContainer";
 import ButtonPrimary from "../Container/ButtonPrimary";
 import { getUserInfo } from "../../Store/AuthAction";
+import { Navigate } from "react-router-dom";
 
 function AuthForm() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function AuthForm() {
   // After Submit Form
   async function submitHandler(e) {
     e.preventDefault();
+
     const email = emailInput.current.value;
     if (!isForgot) {
       const password = passwordInput.current.value;
@@ -58,6 +60,7 @@ function AuthForm() {
           alert("Incorrect Confirm Password");
         }
       } else {
+        dispatch(GeneralAction.openLoading());
         const response = await axios.post(
           `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
           { email, password, returnSecureToken: true }
@@ -80,14 +83,14 @@ function AuthForm() {
           uniqueId: "",
         };
         if (!reply.data.users[0].emailVerified.emailVerified) {
-          const get = await axios.post(
+          await axios.post(
             `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiToken}`,
             { requestType: "VERIFY_EMAIL", idToken: response.data.idToken }
           );
-          console.log(get);
         }
-        dispatch(AuthAction.logIn({ userInfo: newUserInfo }));
         e.target.reset();
+        dispatch(AuthAction.logIn({ userInfo: newUserInfo }));
+        dispatch(GeneralAction.closeLoading());
       }
     } else {
       await axios.post(
@@ -97,6 +100,10 @@ function AuthForm() {
       e.target.reset();
       dispatch(AuthAction.alternateForgot());
     }
+  }
+
+  if (userInfo.emailVerified) {
+    return <Navigate to={"/"} />;
   }
 
   return (

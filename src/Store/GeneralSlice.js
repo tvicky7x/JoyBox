@@ -15,9 +15,9 @@ import avatar9 from "../Assets/Avatars/9.jpg";
 import avatar10 from "../Assets/Avatars/10.jpg";
 import avatar11 from "../Assets/Avatars/11.jpg";
 import avatar12 from "../Assets/Avatars/12.jpg";
-import empty from '../Assets/Avatars/Empty.jpg'
+import empty from "../Assets/Avatars/Empty.jpg";
 
-const avatarsList = [
+const avatars = [
   avatar1,
   avatar2,
   avatar3,
@@ -55,10 +55,11 @@ const initialState = {
     bgName: "YellowFlowers",
     bgUrl: YellowFlowers,
   },
-  avatars: avatarsList,
-  currentAvatar: avatarsList[Math.trunc(Math.random() * 10) + 3],
+  avatars,
+  currentAvatar: avatar3,
   avatarState: false,
   empty,
+  isLoading: false,
 };
 
 const GeneralSlice = createSlice({
@@ -77,6 +78,12 @@ const GeneralSlice = createSlice({
     },
     closeAvatar(states) {
       states.avatarState = false;
+    },
+    openLoading(states) {
+      states.isLoading = true;
+    },
+    closeLoading(states) {
+      states.isLoading = false;
     },
   },
 });

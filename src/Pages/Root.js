@@ -1,9 +1,22 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import MainContainer from "../Components/Container/MainContainer";
 import Navbar from "../Components/Navbar/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { GeneralAction } from "../Store/GeneralSlice";
 
 function Root() {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((states) => states.auth.userInfo);
+
+  useEffect(() => {
+    dispatch(GeneralAction.closeLoading());
+  }, [dispatch]);
+
+  if (!userInfo.emailVerified) {
+    return <Navigate to={"/auth"} />;
+  }
+
   return (
     <>
       <MainContainer>
