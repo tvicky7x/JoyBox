@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 function MainContainer({ children }) {
   const currentBg = useSelector((states) => states.general.currentBg);
-  const isNavOpen = useSelector((states) => states.nav.isNavOpen);
   return (
     <div
       className=" w-screen h-screen flex items-center justify-center py-10 px-4 bg-center bg-cover"
@@ -11,9 +10,7 @@ function MainContainer({ children }) {
     >
       <div className="w-full h-full border border-white max-w-5xl border-opacity-40 bg-black bg-opacity-20 rounded-lg">
         <div
-          className={` backdrop-blur-lg   rounded-lg h-full grid grid-rows-12 ${
-            isNavOpen && "grid-rows-2"
-          }  sm:grid-rows-none sm:grid-flow-col sm:grid-cols-12 overflow-y-hidden`}
+          className={` backdrop-blur-lg   rounded-lg h-full grid  grid-flow-col grid-cols-12 overflow-y-hidden`}
         >
           {children}
         </div>
