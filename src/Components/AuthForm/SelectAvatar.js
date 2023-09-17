@@ -27,9 +27,9 @@ function SelectAvatar() {
         })}
       </div>
       <div className="mt-4 flex items-center justify-center space-x-2">
-        <div className="w-full border-0 border-b-2 border-slate-400"></div>
+        <div className="w-full border-0 border-b-2 border-slate-400 rounded-full"></div>
         <p className="text-slate-500">Or</p>
-        <div className="w-full border-0 border-b-2 border-slate-400"></div>
+        <div className="w-full border-0 border-b-2 border-slate-400 rounded-full"></div>
       </div>
       <div className="mt-1">
         <form
@@ -48,7 +48,7 @@ function SelectAvatar() {
             required
             ref={urlInput}
             type="text"
-            className=" bg-white bg-opacity-95 mt-1.5 rounded font-medium  focus:outline-none w-full h-7 p-1 border border-slate-400 focus:border-0 focus:ring-1 focus:ring-blue-600"
+            className=" bg-white bg-opacity-80 focus:opacity-90 mt-1.5 rounded font-medium  focus:outline-none w-full h-8 p-1 border border-slate-400 focus:border-0 focus:ring-1 focus:ring-blue-600"
           />
           <div className="mt-1 text-center">
             <button

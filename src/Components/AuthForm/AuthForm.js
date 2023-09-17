@@ -95,7 +95,7 @@ function AuthForm() {
                     />
                     <button
                       onClick={() => dispatch(GeneralAction.openAvatar())}
-                      className="mt-0.5 font-medium opacity-90 text-blue-500 hover:opacity-100 hover:text-blue-600"
+                      className="mt-0.5 font-medium opacity-80 text-blue-500 hover:opacity-100 hover:text-blue-600"
                     >
                       Change Profile Image
                     </button>
