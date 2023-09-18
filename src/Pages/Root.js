@@ -8,6 +8,7 @@ import { GeneralAction } from "../Store/GeneralSlice";
 function Root() {
   const dispatch = useDispatch();
   const userInfo = useSelector((states) => states.auth.userInfo);
+  const isNavOpen = useSelector((states) => states.nav.isNavOpen);
 
   useEffect(() => {
     dispatch(GeneralAction.closeLoading());
@@ -21,7 +22,11 @@ function Root() {
     <>
       <MainContainer>
         <Navbar />
-        <div className=" relative bg-white bg-opacity-70 col-start-3 col-span-full rounded-e-lg">
+        <div
+          className={`relative bg-white bg-opacity-70  ${
+            isNavOpen ? "col-start-7" : "col-start-3"
+          } sm:col-start-3  col-span-full rounded-e-lg`}
+        >
           <Outlet />
           <Link to={"/auth"}>Test</Link>
         </div>

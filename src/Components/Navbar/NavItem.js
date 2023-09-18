@@ -14,15 +14,23 @@ function NavItem({ navData }) {
             : " text-white fill-white font-light opacity-90";
         }}
       >
-        <div className="headFont relative bg-inherit flex items-center justify-start py-2 ps-3 sm:py-4 space-x-2 rounded-s-lg">
+        <div
+          className={`headFont relative bg-inherit flex items-center ${
+            isNavOpen ? "justify-start ps-3" : "justify-center"
+          } sm:justify-start   py-2 sm:ps-3 sm:py-4 space-x-2 rounded-s-lg`}
+        >
           <svg
-            className={navData.className}
+            className={`${navData.className} ${
+              isNavOpen ? "me-0" : "me-2"
+            } sm:me-0`}
             viewBox={navData.viewBox}
             xmlns="http://www.w3.org/2000/svg"
           >
             <path d={navData.d}></path>
           </svg>
-          {isNavOpen && <p>{navData.navName}</p>}
+          <p className={`${isNavOpen ? "block" : "hidden"} sm:block`}>
+            {navData.navName}
+          </p>
         </div>
       </NavLink>
     </li>
