@@ -2,7 +2,7 @@ import React from "react";
 
 function ComposeFixButton() {
   return (
-    <div className=" drop-shadow-lg fixed bottom-5 left-1/2 -translate-x-1/2 w-16 h-16 bg-blue-500 bg-opacity-90 rounded-full">
+    <div className=" drop-shadow-lg fixed bottom-4 left-1/2 -translate-x-1/2 w-16 h-16 bg-blue-500 bg-opacity-95 rounded-full">
       <svg
         className=" absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-8 fill-white"
         xmlns="http://www.w3.org/2000/svg"
