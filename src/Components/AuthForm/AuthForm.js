@@ -64,6 +64,7 @@ function AuthForm() {
           alert("Incorrect Confirm Password");
         }
       } else {
+        dispatch(GeneralAction.openLoading());
         try {
           const response = await axios.post(
             `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiToken}`,
@@ -100,6 +101,7 @@ function AuthForm() {
         } catch (error) {
           alert("Authentication Error");
         }
+        dispatch(GeneralAction.closeLoading());
       }
     } else {
       await axios.post(

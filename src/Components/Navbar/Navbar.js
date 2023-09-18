@@ -104,7 +104,7 @@ function Navbar() {
             </button>
           )}
         </div>
-        <div className=" mt-3 sm:mt-0">
+        <div className=" mt-4 sm:mt-0">
           <ul>
             {NavData.map((item) => {
               return <NavItem key={item.navName} navData={item} />;
