@@ -61,6 +61,8 @@ const initialState = {
   avatarState: false,
   empty,
   isLoading: false,
+  isComposing: false,
+  isNavOpen: false,
 };
 
 const GeneralSlice = createSlice({
@@ -85,6 +87,19 @@ const GeneralSlice = createSlice({
     },
     closeLoading(states) {
       states.isLoading = false;
+    },
+    openNav(states) {
+      states.isNavOpen = true;
+    },
+    closeNav(states) {
+      states.isNavOpen = false;
+    },
+    openComposing(states) {
+      states.isComposing = true;
+      states.isNavOpen = false;
+    },
+    closeComposing(states) {
+      states.isComposing = false;
     },
   },
 });

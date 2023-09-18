@@ -9,7 +9,8 @@ import ComposeFixButton from "../Components/Container/ComposeFixButton";
 function Root() {
   const dispatch = useDispatch();
   const userInfo = useSelector((states) => states.auth.userInfo);
-  const isNavOpen = useSelector((states) => states.nav.isNavOpen);
+  const isNavOpen = useSelector((states) => states.general.isNavOpen);
+  const isComposing = useSelector((states) => states.general.isComposing);
 
   useEffect(() => {
     dispatch(GeneralAction.closeLoading());
@@ -25,11 +26,18 @@ function Root() {
         <Navbar />
         <div
           className={`relative bg-white bg-opacity-70  ${
-            isNavOpen ? "col-start-7" : "col-start-3"
-          } sm:col-start-3 col-span-full  rounded-e-lg`}
+            isComposing
+              ? "hidden sm:block"
+              : isNavOpen
+              ? "col-span-6"
+              : "col-span-10"
+          }  ${isComposing ? "sm:col-span-4" : "sm:col-span-10"} `}
         >
           <Outlet />
         </div>
+        {isComposing && (
+          <div className=" relative editorCorner col-span-12 sm:col-span-6 bg-white rounded-lg"></div>
+        )}
       </MainContainer>
       <ComposeFixButton />
     </>

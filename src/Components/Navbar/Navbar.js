@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavbarAction } from "../../Store/NavbarSlice";
 import NavItem from "./NavItem";
 import { NavLink } from "react-router-dom";
 import { logoutHandler } from "../../Store/AuthAction";
+import { GeneralAction } from "../../Store/GeneralSlice";
 
 function Navbar() {
   // Redux
   const dispatch = useDispatch();
-  const isNavOpen = useSelector((states) => states.nav.isNavOpen);
+  const isNavOpen = useSelector((states) => states.general.isNavOpen);
+  const isComposing = useSelector((states) => states.general.isComposing);
 
   const NavData = [
     {
@@ -55,7 +56,11 @@ function Navbar() {
   return (
     <div
       className={`relative ${
-        isNavOpen ? "col-span-6" : "col-span-2"
+        isComposing
+          ? "hidden sm:block"
+          : isNavOpen
+          ? "col-span-6"
+          : "col-span-2"
       } sm:col-span-2  py-3 afterNav`}
     >
       <div className="flex flex-col sm:justify-between justify-start h-full">
@@ -75,7 +80,7 @@ function Navbar() {
           {!isNavOpen && (
             <button
               className=" sm:hidden"
-              onClick={() => dispatch(NavbarAction.openNav())}
+              onClick={() => dispatch(GeneralAction.openNav())}
             >
               <svg
                 viewBox="0 0 20 20"
@@ -92,7 +97,7 @@ function Navbar() {
           {isNavOpen && (
             <button
               className=" sm:hidden "
-              onClick={() => dispatch(NavbarAction.closeNav())}
+              onClick={() => dispatch(GeneralAction.closeNav())}
             >
               <svg
                 viewBox="0 0 28 28"

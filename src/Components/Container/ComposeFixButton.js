@@ -1,8 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { GeneralAction } from "../../Store/GeneralSlice";
 
 function ComposeFixButton() {
+  const dispatch = useDispatch();
   return (
-    <div className=" drop-shadow-lg fixed bottom-7 right-0 -translate-x-1/2 w-16 h-16 bg-blue-500 bg-opacity-95 rounded-full">
+    <button
+      onClick={() => dispatch(GeneralAction.openComposing())}
+      className=" drop-shadow-lg fixed bottom-7 right-0 -translate-x-1/2 w-16 h-16 bg-blue-500 hover:bg-blue-600 bg-opacity-95 rounded-full"
+    >
       <svg
         className=" absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-8 fill-white"
         xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +22,7 @@ function ComposeFixButton() {
 		C491.959,166.987,473.818,0.003,473.818,0.003z"
         />
       </svg>
-    </div>
+    </button>
   );
 }
 

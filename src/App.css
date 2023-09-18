@@ -92,3 +92,30 @@ body {
   );
   rotate: 90deg;
 }
+
+.editorCorner::after {
+  content: "";
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  left: 0;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 8px,
+    rgba(255, 255, 255, 0.7) 8px
+  );
+}
+
+.editorCorner::before {
+  content: "";
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  bottom: 0;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 8px,
+    rgba(255, 255, 255, 0.7) 8px
+  );
+  rotate: 270deg;
+}

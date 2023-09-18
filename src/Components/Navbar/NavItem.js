@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 function NavItem({ navData }) {
-  const isNavOpen = useSelector((states) => states.nav.isNavOpen);
+  const isNavOpen = useSelector((states) => states.general.isNavOpen);
   return (
     <li className="py-0.5 ms-2">
       <NavLink
