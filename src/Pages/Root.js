@@ -4,6 +4,7 @@ import MainContainer from "../Components/Container/MainContainer";
 import Navbar from "../Components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { GeneralAction } from "../Store/GeneralSlice";
+import ComposeFixButton from "../Components/Container/ComposeFixButton";
 
 function Root() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function Root() {
           <Outlet />
         </div>
       </MainContainer>
+      <ComposeFixButton />
     </>
   );
 }
