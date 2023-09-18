@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import MainContainer from "../Components/Container/MainContainer";
 import Navbar from "../Components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,10 +25,9 @@ function Root() {
         <div
           className={`relative bg-white bg-opacity-70  ${
             isNavOpen ? "col-start-7" : "col-start-3"
-          } sm:col-start-3  col-span-full rounded-e-lg`}
+          } sm:col-start-3 col-span-full  rounded-e-lg`}
         >
           <Outlet />
-          <Link to={"/auth"}>Test</Link>
         </div>
       </MainContainer>
     </>

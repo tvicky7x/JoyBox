@@ -10,7 +10,7 @@ function MainContainer({ children }) {
     >
       <div className="w-full h-full border border-white max-w-5xl border-opacity-40 bg-black bg-opacity-20 rounded-lg">
         <div
-          className={` backdrop-blur-lg   rounded-lg h-full grid  grid-flow-col grid-cols-12 overflow-y-hidden`}
+          className={` backdrop-blur-md   rounded-lg h-full grid  grid-flow-col grid-cols-12 overflow-y-hidden`}
         >
           {children}
         </div>

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import LavenderField from "../Assets/Backgrounds/leonard-cotte-c1Jp-fo53U8-unsplash.jpg";
-import RiverSide from "../Assets/Backgrounds/lucas-calloch-P-yzuyWFEIk-unsplash.jpg";
 import WaterFall from "../Assets/Backgrounds/robert-lukeman-zNN6ubHmruI-unsplash.jpg";
 import YellowFlowers from "../Assets/Backgrounds/sergey-shmidt-koy6FlCCy5s-unsplash.jpg";
+import Mountains from "../Assets/Backgrounds/james-wheeler-AFC0XvICMgs-unsplash.jpg";
 import avatar1 from "../Assets/Avatars/1.jpg";
 import avatar2 from "../Assets/Avatars/2.jpg";
 import avatar3 from "../Assets/Avatars/3.jpg";
@@ -38,10 +38,7 @@ const initialState = {
       bgName: "LavenderField",
       bgUrl: LavenderField,
     },
-    {
-      bgName: "RiverSide",
-      bgUrl: RiverSide,
-    },
+
     {
       bgName: "WaterFall",
       bgUrl: WaterFall,
@@ -50,10 +47,14 @@ const initialState = {
       bgName: "YellowFlowers",
       bgUrl: YellowFlowers,
     },
+    {
+      bgName: "Mountains",
+      bgUrl: Mountains,
+    },
   ],
   currentBg: {
-    bgName: "YellowFlowers",
-    bgUrl: YellowFlowers,
+    bgName: "Mountains",
+    bgUrl: Mountains,
   },
   avatars,
   currentAvatar: avatar3,
