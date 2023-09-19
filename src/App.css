@@ -32,7 +32,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 12px,
-    rgba(255, 255, 255, 0.7) 12px
+    rgba(255, 255, 255, 0.6) 12px
   );
   rotate: 90deg;
 }
@@ -47,7 +47,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 12px,
-    rgba(255, 255, 255, 0.7) 12px
+    rgba(255, 255, 255, 0.6) 12px
   );
   rotate: 180deg;
 }
@@ -73,7 +73,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 8px,
-    rgba(255, 255, 255, 0.7) 8px
+    rgba(255, 255, 255, 0.6) 8px
   );
   rotate: 180deg;
 }
@@ -88,7 +88,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 8px,
-    rgba(255, 255, 255, 0.7) 8px
+    rgba(255, 255, 255, 0.6) 8px
   );
   rotate: 90deg;
 }
@@ -99,10 +99,11 @@ body {
   height: 8px;
   width: 8px;
   left: 0;
+  top: 0;
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 8px,
-    rgba(255, 255, 255, 0.7) 8px
+    rgba(255, 255, 255, 0.6) 8px
   );
 }
 
@@ -115,7 +116,7 @@ body {
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent 8px,
-    rgba(255, 255, 255, 0.7) 8px
+    rgba(255, 255, 255, 0.6) 8px
   );
   rotate: 270deg;
 }

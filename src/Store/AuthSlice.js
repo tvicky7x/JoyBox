@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userInfo: {
-    idToken: "",
+    idToken: "a",
     name: "",
     email: "",
-    emailVerified: false,
+    emailVerified: true,
     networkEmail: "",
     photoUrl: "",
     uniqueId: "",

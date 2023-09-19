@@ -9,7 +9,7 @@ function Navbar() {
   // Redux
   const dispatch = useDispatch();
   const isNavOpen = useSelector((states) => states.general.isNavOpen);
-  const isComposing = useSelector((states) => states.general.isComposing);
+  const isReading = useSelector((states) => states.general.isReading);
 
   const NavData = [
     {
@@ -56,7 +56,7 @@ function Navbar() {
   return (
     <div
       className={`relative ${
-        isComposing
+        isReading
           ? "hidden sm:block"
           : isNavOpen
           ? "col-span-6"

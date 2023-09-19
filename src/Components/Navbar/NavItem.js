@@ -10,7 +10,7 @@ function NavItem({ navData }) {
         to={navData.path}
         className={({ isActive }) => {
           return isActive
-            ? "activeNav  text-blue-800 fill-blue-800 bg-white bg-opacity-70"
+            ? "activeNav  text-blue-800 fill-blue-800 bg-white bg-opacity-60"
             : " text-white fill-white font-light opacity-90";
         }}
       >

@@ -63,6 +63,9 @@ const initialState = {
   isLoading: false,
   isComposing: false,
   isNavOpen: false,
+  isReading: false,
+  editorStartContent: { to: "", subject: "", content: "", mini: false },
+  editorContent: { to: "", subject: "", content: "" },
 };
 
 const GeneralSlice = createSlice({
@@ -96,10 +99,37 @@ const GeneralSlice = createSlice({
     },
     openComposing(states) {
       states.isComposing = true;
-      states.isNavOpen = false;
+      states.editorStartContent.mini = false;
     },
     closeComposing(states) {
       states.isComposing = false;
+      states.editorStartContent = { ...states.editorContent, mini: true };
+    },
+    changeEditorContent(states, actions) {
+      if (actions.payload.type === "to") {
+        states.editorContent.to = actions.payload.to;
+      } else if (actions.payload.type === "subject") {
+        states.editorContent.subject = actions.payload.subject;
+      } else if (actions.payload.type === "content") {
+        states.editorContent.content = actions.payload.content;
+      }
+    },
+    deletingComposing(states) {
+      states.isComposing = false;
+      states.editorContent = { to: "", subject: "", content: "" };
+      states.editorStartContent = {
+        to: "",
+        subject: "",
+        content: "",
+        mini: false,
+      };
+    },
+    openReading(states) {
+      states.isReading = true;
+      states.isNavOpen = false;
+    },
+    closeReading(states) {
+      states.isReading = false;
     },
   },
 });
