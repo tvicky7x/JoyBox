@@ -31,6 +31,7 @@ function Root() {
       <MainContainer>
         {isComposing && <ComposeBox />}
         {editorStartContent.mini && <NotificationCompose />}
+
         <Navbar />
         <div
           className={`relative bg-white bg-opacity-60  ${
