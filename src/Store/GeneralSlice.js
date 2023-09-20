@@ -64,7 +64,13 @@ const initialState = {
   isComposing: false,
   isNavOpen: false,
   isReading: false,
-  editorStartContent: { to: "", subject: "", content: "", mini: false },
+  editorStartContent: {
+    to: "",
+    subject: "",
+    content: "",
+    draftId: null,
+    mini: false,
+  },
   editorContent: { to: "", subject: "", content: "" },
 };
 

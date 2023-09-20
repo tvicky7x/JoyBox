@@ -17,7 +17,6 @@ export function getUserInfo(idToken) {
         emailVerified: reply.data.users[0].emailVerified,
         networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
         photoUrl: reply.data.users[0].photoUrl,
-        uniqueId: "",
       };
       dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
     } catch (error) {
@@ -39,7 +38,6 @@ export function logoutHandler() {
           emailVerified: false,
           networkEmail: "",
           photoUrl: "",
-          uniqueId: "",
         },
       })
     );

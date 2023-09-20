@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import ButtonPrimary from "../Container/ButtonPrimary";
 import ButtonSecondary from "../Container/ButtonSecondary";
 import { useDispatch, useSelector } from "react-redux";
 import { GeneralAction } from "../../Store/GeneralSlice";
+import { saveDraft, sendMail } from "../../Store/MailAction";
+// import HTMLReactParser from "html-react-parser";
 
 function ComposeBox() {
   const dispatch = useDispatch();
   const editorStartContent = useSelector(
     (states) => states.general.editorStartContent
   );
+  const editorContent = useSelector((states) => states.general.editorContent);
+  const fireBase = useSelector((states) => states.mail.fireBase);
+  const userInfo = useSelector((states) => states.auth.userInfo);
+
+  const mailInput = useRef();
 
   return (
     <div
@@ -45,8 +52,28 @@ function ComposeBox() {
         </div>
 
         <div className="bg-white p-2 rounded-b-md">
-          <form action="">
+          <form
+            action=""
+            onSubmit={(e) => {
+              e.preventDefault();
+              dispatch(
+                sendMail({
+                  editorContent,
+                  senderEmail: userInfo.email,
+                  receiverEmail: mailInput.current.value.replace(
+                    /[^a-z0-9A-Z]/gi,
+                    ""
+                  ),
+                  networkEmail: userInfo.networkEmail,
+                  fireBase,
+                  draftsId: null,
+                })
+              );
+            }}
+          >
             <input
+              ref={mailInput}
+              required
               defaultValue={editorStartContent.to}
               onChange={(e) =>
                 dispatch(
@@ -62,6 +89,7 @@ function ComposeBox() {
             />
             <hr className="bg-slate-200 rounded-full mb-2 h-0.5 mt-1" />
             <textarea
+              required
               defaultValue={editorStartContent.subject}
               onChange={(e) =>
                 dispatch(
@@ -114,11 +142,26 @@ function ComposeBox() {
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px;}",
               }}
             />
+            <div className="flex items-center justify-between">
+              <ButtonSecondary
+                onClick={() => {
+                  dispatch(
+                    saveDraft({
+                      editorContent,
+                      networkEmail: userInfo.networkEmail,
+                      fireBase,
+                      draftId: editorStartContent.draftId,
+                    })
+                  );
+                }}
+              >
+                Save as draft
+              </ButtonSecondary>
+              <ButtonPrimary type="submit">Send</ButtonPrimary>
+            </div>
           </form>
-          <div className="flex items-center justify-between">
-            <ButtonSecondary>Save as draft</ButtonSecondary>
-            <ButtonPrimary>Send</ButtonPrimary>
-          </div>
+
+          {/* <div>{HTMLReactParser(editorContent.content)}</div> */}
         </div>
       </div>
     </div>
