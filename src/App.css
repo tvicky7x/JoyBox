@@ -120,3 +120,26 @@ body {
   );
   rotate: 270deg;
 }
+
+/* @media screen and (min-width: 640px) {
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 5px;
+  }
+
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0284c7;
+  }
+} */

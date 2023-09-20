@@ -7,6 +7,7 @@ import { GeneralAction } from "../Store/GeneralSlice";
 import ComposeFixButton from "../Components/Container/ComposeFixButton";
 import ComposeBox from "../Components/Compose/ComposeBox";
 import NotificationCompose from "../Components/Compose/NotificationCompose";
+import MailRead from "../Components/Read/MailRead";
 
 function Root() {
   const dispatch = useDispatch();
@@ -34,18 +35,23 @@ function Root() {
 
         <Navbar />
         <div
-          className={`relative bg-white bg-opacity-60  ${
+          className={`relative p-3 grid grid-rows-20 h-full overflow-hidden bg-white bg-opacity-60  ${
             isReading
-              ? "hidden sm:block"
+              ? "hidden sm:grid"
               : isNavOpen
               ? "col-span-6"
               : "col-span-10"
-          }  ${isReading ? "sm:col-span-5" : "sm:col-span-10"} `}
+          }  sm:col-span-5`}
         >
           <Outlet />
         </div>
+        <div className="hidden relative p-2 editorCorner col-span-5 bg-white bg-opacity-75 rounded-lg sm:grid grid-rows-12">
+          {isReading && <MailRead />}
+        </div>
         {isReading && (
-          <div className=" relative p-2 editorCorner col-span-12 sm:col-span-5 bg-white bg-opacity-75 rounded-lg grid grid-rows-12"></div>
+          <div className="sm:hidden relative p-2 editorCorner col-span-12 bg-white bg-opacity-75 rounded-lg grid grid-rows-12">
+            <MailRead />
+          </div>
         )}
       </MainContainer>
       {!isComposing && <ComposeFixButton />}

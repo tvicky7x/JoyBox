@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AuthAction } from "./AuthSlice";
 import { GeneralAction } from "./GeneralSlice";
+import { getMails } from "./MailAction";
 
 export function getUserInfo(idToken) {
   return async (dispatch) => {
@@ -18,7 +19,9 @@ export function getUserInfo(idToken) {
         networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
         photoUrl: reply.data.users[0].photoUrl,
       };
+
       dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
+      dispatch(getMails(newUserInfo.networkEmail, "start"));
     } catch (error) {
       console.log(error);
     }
@@ -26,9 +29,10 @@ export function getUserInfo(idToken) {
   };
 }
 
-export function logoutHandler() {
+export function logoutHandler(networkEmail) {
   return (dispatch) => {
     localStorage.removeItem("token");
+    dispatch(getMails(networkEmail, "end"));
     dispatch(
       AuthAction.updateUser({
         userInfo: {

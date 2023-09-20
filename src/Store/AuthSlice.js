@@ -6,7 +6,7 @@ const initialState = {
     name: "",
     email: "",
     emailVerified: false,
-    networkEmail: "",
+      networkEmail: "",
     photoUrl: "",
   },
   isLogging: true,

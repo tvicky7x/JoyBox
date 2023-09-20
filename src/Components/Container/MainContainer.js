@@ -5,7 +5,7 @@ function MainContainer({ children }) {
   const currentBg = useSelector((states) => states.general.currentBg);
   return (
     <div
-      className=" w-screen h-screen flex items-center justify-center py-10 px-4 bg-center bg-cover"
+      className=" w-screen text-slate-800 h-screen flex items-center justify-center py-10 px-4 bg-center bg-cover"
       style={{ backgroundImage: `url(${currentBg.bgUrl})` }}
     >
       <div className="w-full h-full border border-white max-w-5xl border-opacity-40 bg-black bg-opacity-20 rounded-lg">

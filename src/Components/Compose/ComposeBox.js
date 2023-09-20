@@ -13,7 +13,6 @@ function ComposeBox() {
     (states) => states.general.editorStartContent
   );
   const editorContent = useSelector((states) => states.general.editorContent);
-  const fireBase = useSelector((states) => states.mail.fireBase);
   const userInfo = useSelector((states) => states.auth.userInfo);
 
   const mailInput = useRef();
@@ -26,7 +25,7 @@ function ComposeBox() {
           dispatch(GeneralAction.closeComposing());
       }}
     >
-      <div className="sm:w-96 w-72">
+      <div className="sm:w-96 w-72 ">
         <div className=" bg-slate-900 px-1 py-1.5 rounded-t-md flex items-center justify-center relative">
           <div className=" absolute right-0 flex items-center space-x-2.5 pe-1">
             <button onClick={() => dispatch(GeneralAction.closeComposing())}>
@@ -65,7 +64,7 @@ function ComposeBox() {
                     ""
                   ),
                   networkEmail: userInfo.networkEmail,
-                  fireBase,
+
                   draftsId: null,
                 })
               );
@@ -149,7 +148,7 @@ function ComposeBox() {
                     saveDraft({
                       editorContent,
                       networkEmail: userInfo.networkEmail,
-                      fireBase,
+
                       draftId: editorStartContent.draftId,
                     })
                   );

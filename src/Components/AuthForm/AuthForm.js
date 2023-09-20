@@ -8,6 +8,7 @@ import ImageContainer from "../Container/ImageContainer";
 import ButtonPrimary from "../Container/ButtonPrimary";
 import { getUserInfo, logoutHandler } from "../../Store/AuthAction";
 import { Navigate } from "react-router-dom";
+import { getMails } from "../../Store/MailAction";
 
 function AuthForm() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function AuthForm() {
   const currentAvatar = useSelector((states) => states.general.currentAvatar);
   const apiToken = useSelector((states) => states.auth.apiToken);
   const userInfo = useSelector((states) => states.auth.userInfo);
+  const MailInterval = useSelector((states) => states.mail.MailInterval);
 
   // Refs
   const nameInput = useRef();
@@ -88,7 +90,6 @@ function AuthForm() {
               ""
             ),
             photoUrl: reply.data.users[0].photoUrl,
-            uniqueId: "",
           };
           if (!reply.data.users[0].emailVerified.emailVerified) {
             await axios.post(
@@ -98,6 +99,7 @@ function AuthForm() {
           }
           e.target.reset();
           dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
+          dispatch(getMails(newUserInfo.networkEmail, "start"));
         } catch (error) {
           alert("Authentication Error");
         }
@@ -120,7 +122,7 @@ function AuthForm() {
   return (
     <>
       <div
-        className=" w-screen h-screen  bg-center bg-cover"
+        className=" w-screen h-screen text-slate-800 bg-center bg-cover"
         style={{ backgroundImage: `url(${currentBg.bgUrl})` }}
       >
         <div className="w-screen h-screen backdrop-blur flex flex-col items-center justify-center py-10 px-4">
@@ -136,7 +138,7 @@ function AuthForm() {
           {/* updateUser and Signup page */}
           {!avatarState && (
             <>
-              <div className="text-slate-950 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
+              <div className=" p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
                 {/* Heading of a form */}
                 <h1 className=" text-blue-500 headFont font-medium text-2xl text-center">
                   {userInfo.idToken && !userInfo.emailVerified
@@ -168,7 +170,10 @@ function AuthForm() {
                       <button
                         type="button"
                         className=" mt-2"
-                        onClick={() => dispatch(logoutHandler())}
+                        onClick={() => {
+                          clearInterval(MailInterval);
+                          dispatch(logoutHandler());
+                        }}
                       >
                         Go Back
                       </button>

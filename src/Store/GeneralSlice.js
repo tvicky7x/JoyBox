@@ -109,7 +109,11 @@ const GeneralSlice = createSlice({
     },
     closeComposing(states) {
       states.isComposing = false;
-      states.editorStartContent = { ...states.editorContent, mini: true };
+      states.editorStartContent = {
+        ...states.editorContent,
+        mini: true,
+        draftId: states.editorStartContent.draftId,
+      };
     },
     changeEditorContent(states, actions) {
       if (actions.payload.type === "to") {
