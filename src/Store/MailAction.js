@@ -28,6 +28,7 @@ export function sendMail({
     await axios.post(`${fireBase}/${networkEmail}/sent.json`, {
       date: new Date(),
       from: senderEmail,
+      isRead: false,
       senderInfo,
       editorContent,
     });
@@ -104,7 +105,11 @@ export function arrangeMails(data) {
         );
       }
       if (data.sent) {
-        dispatch(MailAction.addSentMails({ sent: Object.entries(data.sent) }));
+        const updatedData = Object.entries(data.sent).map((item) => {
+          item[1] = { ...item[1], id: item[0] };
+          return item;
+        });
+        dispatch(MailAction.addSentMails({ sent: updatedData }));
       }
       if (data.drafts) {
         dispatch(
@@ -115,7 +120,7 @@ export function arrangeMails(data) {
   };
 }
 
-export function updateMails(data, networkEmail, type) {
+export function updateMails(data, networkEmail, type, place = "") {
   return async (dispatch) => {
     let newData;
     if (type === "hasOpen") {
@@ -126,10 +131,18 @@ export function updateMails(data, networkEmail, type) {
       newData = { ...data, isTrash: true };
     }
 
-    await axios.put(
-      `${fireBase}/${networkEmail}/inbox/${data.id}.json`,
-      newData
-    );
+    if (place === "sent") {
+      await axios.put(
+        `${fireBase}/${networkEmail}/sent/${data.id}.json`,
+        newData
+      );
+    } else {
+      await axios.put(
+        `${fireBase}/${networkEmail}/inbox/${data.id}.json`,
+        newData
+      );
+    }
+
     dispatch(getFastMails(networkEmail));
   };
 }
