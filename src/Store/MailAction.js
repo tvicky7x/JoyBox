@@ -82,27 +82,30 @@ export function arrangeMails(data) {
         });
 
         dispatch(MailAction.addAllMails({ allMails: updatedData }));
+
+        const allInboxMail = updatedData.filter((item) => {
+          return item[1].isTrash === false;
+        });
+
+        dispatch(
+          MailAction.addInboxMails({
+            inbox: allInboxMail,
+          })
+        );
+
         dispatch(
           MailAction.addFavorite({
-            favorite: updatedData.filter((item) => {
+            favorite: allInboxMail.filter((item) => {
               return item[1].isFavorite === true;
             }),
           })
         );
-        dispatch(
-          MailAction.addTrashMails({
-            trash: updatedData.filter((item) => {
-              return item[1].isTrash === true;
-            }),
-          })
-        );
-        dispatch(
-          MailAction.addInboxMails({
-            inbox: updatedData.filter((item) => {
-              return item[1].isTrash === false;
-            }),
-          })
-        );
+
+        const trashMail = updatedData.filter((item) => {
+          return item[1].isTrash === true;
+        });
+
+        dispatch(MailAction.addTrashMails({ trash: trashMail }));
       }
       if (data.sent) {
         const updatedData = Object.entries(data.sent).map((item) => {

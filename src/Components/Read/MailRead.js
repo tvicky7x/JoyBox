@@ -10,14 +10,14 @@ function MailRead() {
   const dispatch = useDispatch();
   const userInfo = useSelector((states) => states.auth.userInfo);
   const readingIndex = useSelector((states) => states.general.readingIndex);
-  const allMails = useSelector((stats) => stats.mail.allMails);
   const sentMails = useSelector((states) => states.mail.sentMails);
+  const inboxMails = useSelector((states) => states.mail.inboxMails);
 
   let readingContent;
   if (location.pathname === "/sent") {
     readingContent = sentMails[readingIndex][1];
   } else {
-    readingContent = allMails[readingIndex][1];
+    readingContent = inboxMails[readingIndex][1];
   }
 
   useEffect(() => {
