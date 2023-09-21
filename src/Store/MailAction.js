@@ -30,9 +30,6 @@ export function sendMail({
       from: senderEmail,
       senderInfo,
       editorContent,
-      isRead: false,
-      isFavorite: false,
-      isTrash: false,
     });
 
     await axios.post(`${fireBase}/${receiverEmail}/inbox.json`, {
@@ -67,12 +64,43 @@ export function getMails(networkEmail, type) {
   };
 }
 
+export function getFastMails(networkEmail) {
+  return async (dispatch) => {
+    const response = await axios.get(`${fireBase}/${networkEmail}.json`);
+    dispatch(arrangeMails(response.data));
+  };
+}
+
 export function arrangeMails(data) {
   return (dispatch) => {
     if (data) {
       if (data.inbox) {
+        const updatedData = Object.entries(data.inbox).map((item) => {
+          item[1] = { ...item[1], id: item[0] };
+          return item;
+        });
+
+        dispatch(MailAction.addAllMails({ allMails: updatedData }));
         dispatch(
-          MailAction.addInboxMails({ inbox: Object.entries(data.inbox) })
+          MailAction.addFavorite({
+            favorite: updatedData.filter((item) => {
+              return item[1].isFavorite === true;
+            }),
+          })
+        );
+        dispatch(
+          MailAction.addTrashMails({
+            trash: updatedData.filter((item) => {
+              return item[1].isTrash === true;
+            }),
+          })
+        );
+        dispatch(
+          MailAction.addInboxMails({
+            inbox: updatedData.filter((item) => {
+              return item[1].isTrash === false;
+            }),
+          })
         );
       }
       if (data.sent) {
@@ -84,5 +112,24 @@ export function arrangeMails(data) {
         );
       }
     }
+  };
+}
+
+export function updateMails(data, networkEmail, type) {
+  return async (dispatch) => {
+    let newData;
+    if (type === "hasOpen") {
+      newData = { ...data, isRead: true };
+    } else if (type === "favorite") {
+      newData = { ...data, isFavorite: !data.isFavorite };
+    } else if (type === "trash") {
+      newData = { ...data, isTrash: true };
+    }
+
+    await axios.put(
+      `${fireBase}/${networkEmail}/inbox/${data.id}.json`,
+      newData
+    );
+    dispatch(getFastMails(networkEmail));
   };
 }

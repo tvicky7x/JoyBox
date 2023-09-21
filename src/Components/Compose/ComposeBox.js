@@ -25,8 +25,8 @@ function ComposeBox() {
           dispatch(GeneralAction.closeComposing());
       }}
     >
-      <div className="sm:w-96 w-72 ">
-        <div className=" bg-slate-900 px-1 py-1.5 rounded-t-md flex items-center justify-center relative">
+      <div className="sm:w-96 w-72  rounded-md overflow-hidden">
+        <div className=" bg-slate-900 px-1 py-1.5 flex items-center justify-center relative">
           <div className=" absolute right-0 flex items-center space-x-2.5 pe-1">
             <button onClick={() => dispatch(GeneralAction.closeComposing())}>
               <svg
@@ -50,7 +50,7 @@ function ComposeBox() {
           <p className="headFont text-slate-200">New Massage</p>
         </div>
 
-        <div className="bg-white p-2 rounded-b-md">
+        <div className="bg-white p-2 border-x-2 border-b-2 ">
           <form
             action=""
             onSubmit={(e) => {

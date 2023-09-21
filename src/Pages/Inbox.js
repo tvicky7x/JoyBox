@@ -6,10 +6,13 @@ function Inbox() {
   const inboxMails = useSelector((states) => states.mail.inboxMails);
 
   const set = new Set();
-  inboxMails.forEach((item) => {
-    set.add(new Date(item[1].date).toDateString());
-  });
-  const DateList = Array.from(set);
+  let DateList = [];
+  if (inboxMails) {
+    inboxMails.forEach((item) => {
+      set.add(new Date(item[1].date).toDateString());
+    });
+    DateList = Array.from(set);
+  }
 
   return (
     <>
@@ -29,16 +32,14 @@ function Inbox() {
                   return (
                     <MailList
                       key={data[0]}
-                      data={{ ...data[1], id: data[0] }}
+                      data={data[1]}
+                      index={inboxMails.indexOf(data)}
                     />
                   );
                 })}
             </div>
           );
         })}
-        {/* {inboxMails.map((item) => {
-          
-        })} */}
       </div>
     </>
   );

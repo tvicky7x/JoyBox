@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AuthAction } from "./AuthSlice";
 import { GeneralAction } from "./GeneralSlice";
-import { getMails } from "./MailAction";
+import { getFastMails, getMails } from "./MailAction";
 
 export function getUserInfo(idToken) {
   return async (dispatch) => {
@@ -19,6 +19,7 @@ export function getUserInfo(idToken) {
         networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
         photoUrl: reply.data.users[0].photoUrl,
       };
+      dispatch(getFastMails(newUserInfo.networkEmail));
       dispatch(getMails(newUserInfo.networkEmail, "update"));
       dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
     } catch (error) {

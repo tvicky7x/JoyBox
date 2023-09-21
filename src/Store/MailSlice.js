@@ -5,7 +5,7 @@ export const fireBase =
 
 const initialState = {
   fireBase,
-
+  allMails:[],
   inboxMails: [],
   sentMails: [],
   favoriteMails: [],
@@ -17,6 +17,9 @@ const MailSlice = createSlice({
   name: "MailSlice",
   initialState,
   reducers: {
+    addAllMails(states,actions){
+      states.allMails = actions.payload.allMails
+    },
     addInboxMails(states, actions) {
       states.inboxMails = actions.payload.inbox;
     },
