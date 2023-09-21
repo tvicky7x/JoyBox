@@ -16,7 +16,23 @@ const initialState = {
 const MailSlice = createSlice({
   name: "MailSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    addInboxMails(states, actions) {
+      states.inboxMails = actions.payload.inbox;
+    },
+    addSentMails(states, actions) {
+      states.sentMails = actions.payload.sent;
+    },
+    addFavorite(states, actions) {
+      states.favoriteMails = actions.payload.favorite;
+    },
+    addTrashMails(states, actions) {
+      states.trashMails = actions.payload.trash;
+    },
+    addDraftsMails(states, actions) {
+      states.draftsMails = actions.payload.drafts;
+    },
+  },
 });
 
 export const MailAction = MailSlice.actions;

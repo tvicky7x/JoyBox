@@ -45,11 +45,11 @@ function Root() {
         >
           <Outlet />
         </div>
-        <div className="hidden relative p-2 editorCorner col-span-5 bg-white bg-opacity-75 rounded-lg sm:grid grid-rows-12">
+        <div className="hidden relative p-2  h-full overflow-hidden col-span-5 bg-white bg-opacity-70 rounded-e-lg sm:grid grid-rows-12">
           {isReading && <MailRead />}
         </div>
         {isReading && (
-          <div className="sm:hidden relative p-2 editorCorner col-span-12 bg-white bg-opacity-75 rounded-lg grid grid-rows-12">
+          <div className="sm:hidden relative p-2  h-full overflow-hidden col-span-12 bg-white bg-opacity-70 rounded-lg grid grid-rows-12">
             <MailRead />
           </div>
         )}

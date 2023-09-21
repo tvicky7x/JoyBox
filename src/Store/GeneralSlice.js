@@ -72,6 +72,7 @@ const initialState = {
     mini: false,
   },
   editorContent: { to: "", subject: "", content: "" },
+  readingContent: {},
 };
 
 const GeneralSlice = createSlice({
@@ -134,11 +135,13 @@ const GeneralSlice = createSlice({
         mini: false,
       };
     },
-    openReading(states) {
+    openReading(states, actions) {
+      states.readingContent = actions.payload.data;
       states.isReading = true;
       states.isNavOpen = false;
     },
     closeReading(states) {
+      states.readingContent = {};
       states.isReading = false;
     },
   },

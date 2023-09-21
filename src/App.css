@@ -93,7 +93,7 @@ body {
   rotate: 90deg;
 }
 
-.editorCorner::after {
+/* .editorCorner::after {
   content: "";
   position: absolute;
   height: 8px;
@@ -119,8 +119,19 @@ body {
     rgba(255, 255, 255, 0.6) 8px
   );
   rotate: 270deg;
-}
+} */
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.4);
+
+  border-radius: 5px;
+}
 /* @media screen and (min-width: 640px) {
 
   ::-webkit-scrollbar {

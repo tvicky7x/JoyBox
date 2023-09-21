@@ -99,7 +99,7 @@ function AuthForm() {
           }
           e.target.reset();
           dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
-          dispatch(getMails(newUserInfo.networkEmail, "start"));
+          dispatch(getMails(newUserInfo.networkEmail, "login"));
         } catch (error) {
           alert("Authentication Error");
         }

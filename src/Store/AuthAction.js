@@ -19,9 +19,8 @@ export function getUserInfo(idToken) {
         networkEmail: reply.data.users[0].email.replace(/[^a-zA-Z0-9]/gi, ""),
         photoUrl: reply.data.users[0].photoUrl,
       };
-
+      dispatch(getMails(newUserInfo.networkEmail, "update"));
       dispatch(AuthAction.updateUser({ userInfo: newUserInfo }));
-      dispatch(getMails(newUserInfo.networkEmail, "start"));
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +31,6 @@ export function getUserInfo(idToken) {
 export function logoutHandler(networkEmail) {
   return (dispatch) => {
     localStorage.removeItem("token");
-    dispatch(getMails(networkEmail, "end"));
     dispatch(
       AuthAction.updateUser({
         userInfo: {
@@ -45,5 +43,9 @@ export function logoutHandler(networkEmail) {
         },
       })
     );
+    clearInterval(localStorage.getItem("login"));
+    clearInterval(localStorage.getItem("update"));
+    localStorage.removeItem("login");
+    localStorage.removeItem("update");
   };
 }

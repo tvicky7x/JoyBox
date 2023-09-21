@@ -64,8 +64,11 @@ function ComposeBox() {
                     ""
                   ),
                   networkEmail: userInfo.networkEmail,
-
-                  draftsId: null,
+                  senderInfo: {
+                    name: userInfo.name,
+                    photoUrl: userInfo.photoUrl,
+                  },
+                  draftId: null,
                 })
               );
             }}
