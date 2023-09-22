@@ -16,7 +16,7 @@ function MailList({ data, index }) {
         }}
         className={` ${
           data.isRead ? "bg-opacity-60" : "bg-opacity-95"
-        } bg-white  hover:bg-opacity-95 transition-all duration-100 mb-2.5 max-h-28 overflow-hidden drop-shadow-xl rounded-md py-1 px-2`}
+        } bg-white  hover:bg-opacity-90 transition-all duration-100 mb-2.5 max-h-28 overflow-hidden drop-shadow-xl rounded-md py-1 px-2`}
       >
         <div className=" flex justify-between h-full overflow-hidden">
           <div className=" w-full overflow-hidden">

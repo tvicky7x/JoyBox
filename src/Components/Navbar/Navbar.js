@@ -70,7 +70,7 @@ function Navbar() {
               isNavOpen ? "block ps-3" : "hidden ps-0"
             } sm:block headFont sm:ps-0 font-medium text-white opacity-90 text-xl`}
           >
-            Joy Box
+            JoyBox
           </h1>
 
           {!isNavOpen && (
