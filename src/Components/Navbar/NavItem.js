@@ -1,11 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { GeneralAction } from "../../Store/GeneralSlice";
 
 function NavItem({ navData }) {
   const isNavOpen = useSelector((states) => states.general.isNavOpen);
+  const dispatch = useDispatch();
   return (
-    <li className="py-0.5 ms-2">
+    <li
+      className="py-0.5 ms-2"
+      onClick={() => dispatch(GeneralAction.closeReading())}
+    >
       <NavLink
         to={navData.path}
         className={({ isActive }) => {

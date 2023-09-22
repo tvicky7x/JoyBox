@@ -107,6 +107,10 @@ export function arrangeMails(data) {
 
         dispatch(MailAction.addTrashMails({ trash: trashMail }));
       }
+      if (!data.inbox) {
+        dispatch(MailAction.addAllMails({ allMails: [] }));
+        dispatch(MailAction.addTrashMails({ trash: [] }));
+      }
       if (data.sent) {
         const updatedData = Object.entries(data.sent).map((item) => {
           item[1] = { ...item[1], id: item[0] };
@@ -114,11 +118,20 @@ export function arrangeMails(data) {
         });
         dispatch(MailAction.addSentMails({ sent: updatedData }));
       }
+      if (!data.sent) {
+        console.log("doing");
+        dispatch(MailAction.addSentMails({ sent: [] }));
+      }
       if (data.drafts) {
         dispatch(
           MailAction.addDraftsMails({ drafts: Object.entries(data.drafts) })
         );
       }
+    }
+    if (!data) {
+      dispatch(MailAction.addAllMails({ allMails: [] }));
+      dispatch(MailAction.addTrashMails({ trash: [] }));
+      dispatch(MailAction.addSentMails({ sent: [] }));
     }
   };
 }
@@ -132,6 +145,8 @@ export function updateMails(data, networkEmail, type, place = "") {
       newData = { ...data, isFavorite: !data.isFavorite };
     } else if (type === "trash") {
       newData = { ...data, isTrash: true };
+    } else if (type === "notTrash") {
+      newData = { ...data, isTrash: false };
     }
 
     if (place === "sent") {
@@ -146,6 +161,20 @@ export function updateMails(data, networkEmail, type, place = "") {
       );
     }
 
+    dispatch(getFastMails(networkEmail));
+  };
+}
+
+export function deleteMails(data, networkEmail, place = "") {
+  return async (dispatch) => {
+    if (place === "inbox") {
+      await axios.delete(`${fireBase}/${networkEmail}/inbox/${data.id}.json`);
+    } else if (place === "sent") {
+      await axios.delete(
+        `${fireBase}/${networkEmail}/sent/${data.id}.json`,
+        {}
+      );
+    }
     dispatch(getFastMails(networkEmail));
   };
 }
