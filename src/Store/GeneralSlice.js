@@ -35,16 +35,16 @@ const avatars = [
 const initialState = {
   backgrounds: [
     {
-      bgName: "LavenderField",
+      bgName: "Lavender Field",
       bgUrl: LavenderField,
     },
 
     {
-      bgName: "WaterFall",
+      bgName: "Water Fall",
       bgUrl: WaterFall,
     },
     {
-      bgName: "YellowFlowers",
+      bgName: "Yellow Flowers",
       bgUrl: YellowFlowers,
     },
     {
