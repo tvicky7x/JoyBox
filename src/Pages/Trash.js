@@ -16,7 +16,7 @@ function Trash() {
 
   return (
     <>
-      <h1 className="headFont row-span-1 text-blue-800 text-xl">Favorite</h1>
+      <h1 className="headFont row-span-1 text-blue-800 text-xl">Trash</h1>
       <div className=" row-span-full row-start-2 overflow-y-scroll">
         {DateList.map((item) => {
           return (

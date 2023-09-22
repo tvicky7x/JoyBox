@@ -2,12 +2,19 @@ import axios from "axios";
 import { GeneralAction } from "./GeneralSlice";
 import { MailAction, fireBase } from "./MailSlice";
 
-export function saveDraft({ editorContent, networkEmail }) {
+export function saveDraft({ editorContent, networkEmail, draftId }) {
   return async (dispatch) => {
-    await axios.post(`${fireBase}/${networkEmail}/drafts.json`, {
-      date: new Date(),
-      editorContent,
-    });
+    if (draftId) {
+      await axios.put(`${fireBase}/${networkEmail}/drafts/${draftId}.json`, {
+        date: new Date(),
+        editorContent,
+      });
+    } else {
+      await axios.post(`${fireBase}/${networkEmail}/drafts.json`, {
+        date: new Date(),
+        editorContent,
+      });
+    }
     dispatch(GeneralAction.deletingComposing());
   };
 }
@@ -22,6 +29,7 @@ export function sendMail({
 }) {
   return async (dispatch) => {
     if (draftId) {
+      console.log(draftId);
       await axios.delete(`${fireBase}/${networkEmail}/drafts/${draftId}.json`);
     }
 
@@ -119,19 +127,27 @@ export function arrangeMails(data) {
         dispatch(MailAction.addSentMails({ sent: updatedData }));
       }
       if (!data.sent) {
-        console.log("doing");
         dispatch(MailAction.addSentMails({ sent: [] }));
       }
       if (data.drafts) {
-        dispatch(
-          MailAction.addDraftsMails({ drafts: Object.entries(data.drafts) })
-        );
+        const updatedData = Object.entries(data.drafts).map((item) => {
+          item[1] = {
+            ...item[1],
+            editorContent: { ...item[1].editorContent, draftId: item[0] },
+          };
+          return item;
+        });
+        dispatch(MailAction.addDraftsMails({ drafts: updatedData }));
+      }
+      if (!data.drafts) {
+        dispatch(MailAction.addDraftsMails({ drafts: [] }));
       }
     }
     if (!data) {
       dispatch(MailAction.addAllMails({ allMails: [] }));
       dispatch(MailAction.addTrashMails({ trash: [] }));
       dispatch(MailAction.addSentMails({ sent: [] }));
+      dispatch(MailAction.addDraftsMails({ drafts: [] }));
     }
   };
 }
@@ -170,9 +186,10 @@ export function deleteMails(data, networkEmail, place = "") {
     if (place === "inbox") {
       await axios.delete(`${fireBase}/${networkEmail}/inbox/${data.id}.json`);
     } else if (place === "sent") {
+      await axios.delete(`${fireBase}/${networkEmail}/sent/${data.id}.json`);
+    } else if (place === "drafts") {
       await axios.delete(
-        `${fireBase}/${networkEmail}/sent/${data.id}.json`,
-        {}
+        `${fireBase}/${networkEmail}/drafts/${data.draftId}.json`
       );
     }
     dispatch(getFastMails(networkEmail));

@@ -109,6 +109,11 @@ const GeneralSlice = createSlice({
       states.isComposing = true;
       states.editorStartContent.mini = false;
     },
+    openComposingDraft(states, actions) {
+      states.editorContent = actions.payload.data;
+      states.editorStartContent = actions.payload.data;
+      states.isComposing = true;
+    },
     closeComposing(states) {
       states.isComposing = false;
       states.editorStartContent = {
