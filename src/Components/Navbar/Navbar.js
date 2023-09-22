@@ -114,7 +114,7 @@ function Navbar() {
         </div>
         <div className={`${isNavOpen ? "hidden" : "block"} sm:hidden`}></div>
         <div
-          className={`items-center justify-center mt-auto sm:mt-0 space-x-4 ${
+          className={`items-center justify-center mt-auto sm:mt-0 space-x-2 ${
             isNavOpen ? "flex" : "hidden"
           } sm:flex`}
         >
@@ -122,8 +122,8 @@ function Navbar() {
             to={"/settings"}
             className={({ isActive }) => {
               return isActive
-                ? "fill-slate-950 opacity-90"
-                : "fill-white opacity-90";
+                ? " bg-white bg-opacity-60 fill-slate-900 rounded p-1"
+                : "fill-white opacity-90 p-1 rounded";
             }}
           >
             <svg
@@ -138,8 +138,8 @@ function Navbar() {
             to={"/profile"}
             className={({ isActive }) => {
               return isActive
-                ? "fill-slate-950 opacity-90"
-                : "fill-white opacity-90";
+                ? "bg-white bg-opacity-60 fill-slate-900 rounded p-1"
+                : "fill-white opacity-90 p-1 rounded";
             }}
           >
             <svg
@@ -151,7 +151,7 @@ function Navbar() {
             </svg>
           </NavLink>
           <button
-            className="group"
+            className="group p-1 rounded"
             onClick={() => {
               dispatch(logoutHandler());
             }}
