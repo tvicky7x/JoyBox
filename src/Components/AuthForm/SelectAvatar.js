@@ -1,15 +1,24 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GeneralAction } from "../../Store/GeneralSlice";
+import { useLocation } from "react-router-dom";
+import { updateProfile } from "../../Store/MailAction";
 
 function SelectAvatar() {
+  const location = useLocation();
   const dispatch = useDispatch();
+  const apiToken = useSelector((states) => states.auth.apiToken);
+  const userInfo = useSelector((states) => states.auth.userInfo);
   const avatars = useSelector((states) => states.general.avatars);
   //  Ref
   const urlInput = useRef();
 
   return (
-    <div className="text-slate-800 p-4 bg-white bg-opacity-70 drop-shadow-md w-full max-w-sm rounded-lg">
+    <div
+      className={`text-slate-800 p-4 bg-white bg-opacity-70 drop-shadow-md w-full ${
+        location.pathname === "/profile" ? " w-full" : "max-w-sm"
+      }  rounded-lg`}
+    >
       <p className=" headFont text-center text-lg">Select Profile Image</p>
       <div className=" mt-3 grid grid-rows-3 gap-3 grid-cols-4 grid-flow-row">
         {avatars.map((item, index) => {
@@ -19,9 +28,18 @@ function SelectAvatar() {
               className=" rounded-full ring-1 drop-shadow-md hover:ring-2 hover:ring-blue-500 transition-all duration-150 "
               src={item}
               alt=""
-              onClick={() =>
-                dispatch(GeneralAction.changeAvatar({ avatar: item }))
-              }
+              onClick={() => {
+                location.pathname === "/profile"
+                  ? dispatch(
+                      updateProfile(
+                        item,
+                        userInfo.name,
+                        userInfo.idToken,
+                        apiToken
+                      )
+                    )
+                  : dispatch(GeneralAction.changeAvatar({ avatar: item }));
+              }}
             />
           );
         })}
@@ -36,9 +54,19 @@ function SelectAvatar() {
           action=""
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch(
-              GeneralAction.changeAvatar({ avatar: urlInput.current.value })
-            );
+            location.pathname === "/profile"
+              ? dispatch(
+                  updateProfile(
+                    urlInput.current.value,
+                    userInfo.name,
+                    userInfo.idToken,
+                    apiToken
+                  )
+                )
+              : dispatch(
+                  GeneralAction.changeAvatar({ avatar: urlInput.current.value })
+                );
+            e.target.reset();
           }}
         >
           <label htmlFor="" className="ps-1">
@@ -57,13 +85,15 @@ function SelectAvatar() {
             >
               Upload
             </button>
-            <button
-              type="button"
-              className=" mt-1"
-              onClick={() => dispatch(GeneralAction.closeAvatar())}
-            >
-              Go Back
-            </button>
+            {!location.pathname === "/profile" && (
+              <button
+                type="button"
+                className=" mt-1"
+                onClick={() => dispatch(GeneralAction.closeAvatar())}
+              >
+                Go Back
+              </button>
+            )}
           </div>
         </form>
       </div>

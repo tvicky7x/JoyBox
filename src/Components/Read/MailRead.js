@@ -139,7 +139,7 @@ function MailRead() {
       </div>
       <div className=" row-start-2 p-2 row-span-full h-full overflow-hidden bg-white rounded-lg ">
         <div className=" h-full overflow-y-scroll">
-          <div className=" mb-2 flex items-start justify-between space-x-2">
+          <div className=" mb-4 flex items-start justify-between space-x-2">
             <h2 className="text-xl font-semibold">
               {readingContent.editorContent.subject}
             </h2>
@@ -174,7 +174,7 @@ function MailRead() {
               </div>
             )}
           </div>
-          <div className="flex items-center justify-start space-x-2 mb-7">
+          <div className="flex items-center justify-start space-x-2 mb-6">
             <img
               className=" w-14 h-14 drop-shadow-sm rounded-full object-cover"
               src={`${window.location.origin}${readingContent.senderInfo.photoUrl}`}
@@ -184,7 +184,7 @@ function MailRead() {
               }
             />
             <div>
-              <p className=" text-slate-900 text-opacity-95 font-medium capitalize">
+              <p className=" text-slate-800 text-opacity-95 font-medium capitalize">
                 {readingContent.senderInfo.name}
               </p>
               <p className=" text-sm -mt-1">

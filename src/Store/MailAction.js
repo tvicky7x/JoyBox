@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GeneralAction } from "./GeneralSlice";
 import { MailAction, fireBase } from "./MailSlice";
+import { getUserInfo, logoutHandler } from "./AuthAction";
 
 export function saveDraft({ editorContent, networkEmail, draftId }) {
   return async (dispatch) => {
@@ -82,72 +83,76 @@ export function getFastMails(networkEmail) {
 
 export function arrangeMails(data) {
   return (dispatch) => {
-    if (data) {
-      if (data.inbox) {
-        const updatedData = Object.entries(data.inbox).map((item) => {
-          item[1] = { ...item[1], id: item[0] };
-          return item;
-        });
+    try {
+      if (data) {
+        if (data.inbox) {
+          const updatedData = Object.entries(data.inbox).map((item) => {
+            item[1] = { ...item[1], id: item[0] };
+            return item;
+          });
 
-        dispatch(MailAction.addAllMails({ allMails: updatedData }));
+          dispatch(MailAction.addAllMails({ allMails: updatedData }));
 
-        const allInboxMail = updatedData.filter((item) => {
-          return item[1].isTrash === false;
-        });
+          const allInboxMail = updatedData.filter((item) => {
+            return item[1].isTrash === false;
+          });
 
-        dispatch(
-          MailAction.addInboxMails({
-            inbox: allInboxMail,
-          })
-        );
+          dispatch(
+            MailAction.addInboxMails({
+              inbox: allInboxMail,
+            })
+          );
 
-        dispatch(
-          MailAction.addFavorite({
-            favorite: allInboxMail.filter((item) => {
-              return item[1].isFavorite === true;
-            }),
-          })
-        );
+          dispatch(
+            MailAction.addFavorite({
+              favorite: allInboxMail.filter((item) => {
+                return item[1].isFavorite === true;
+              }),
+            })
+          );
 
-        const trashMail = updatedData.filter((item) => {
-          return item[1].isTrash === true;
-        });
+          const trashMail = updatedData.filter((item) => {
+            return item[1].isTrash === true;
+          });
 
-        dispatch(MailAction.addTrashMails({ trash: trashMail }));
+          dispatch(MailAction.addTrashMails({ trash: trashMail }));
+        }
+        if (!data.inbox) {
+          dispatch(MailAction.addAllMails({ allMails: [] }));
+          dispatch(MailAction.addTrashMails({ trash: [] }));
+        }
+        if (data.sent) {
+          const updatedData = Object.entries(data.sent).map((item) => {
+            item[1] = { ...item[1], id: item[0] };
+            return item;
+          });
+          dispatch(MailAction.addSentMails({ sent: updatedData }));
+        }
+        if (!data.sent) {
+          dispatch(MailAction.addSentMails({ sent: [] }));
+        }
+        if (data.drafts) {
+          const updatedData = Object.entries(data.drafts).map((item) => {
+            item[1] = {
+              ...item[1],
+              editorContent: { ...item[1].editorContent, draftId: item[0] },
+            };
+            return item;
+          });
+          dispatch(MailAction.addDraftsMails({ drafts: updatedData }));
+        }
+        if (!data.drafts) {
+          dispatch(MailAction.addDraftsMails({ drafts: [] }));
+        }
       }
-      if (!data.inbox) {
+      if (!data) {
         dispatch(MailAction.addAllMails({ allMails: [] }));
         dispatch(MailAction.addTrashMails({ trash: [] }));
-      }
-      if (data.sent) {
-        const updatedData = Object.entries(data.sent).map((item) => {
-          item[1] = { ...item[1], id: item[0] };
-          return item;
-        });
-        dispatch(MailAction.addSentMails({ sent: updatedData }));
-      }
-      if (!data.sent) {
         dispatch(MailAction.addSentMails({ sent: [] }));
-      }
-      if (data.drafts) {
-        const updatedData = Object.entries(data.drafts).map((item) => {
-          item[1] = {
-            ...item[1],
-            editorContent: { ...item[1].editorContent, draftId: item[0] },
-          };
-          return item;
-        });
-        dispatch(MailAction.addDraftsMails({ drafts: updatedData }));
-      }
-      if (!data.drafts) {
         dispatch(MailAction.addDraftsMails({ drafts: [] }));
       }
-    }
-    if (!data) {
-      dispatch(MailAction.addAllMails({ allMails: [] }));
-      dispatch(MailAction.addTrashMails({ trash: [] }));
-      dispatch(MailAction.addSentMails({ sent: [] }));
-      dispatch(MailAction.addDraftsMails({ drafts: [] }));
+    } catch (error) {
+      dispatch(logoutHandler());
     }
   };
 }
@@ -193,5 +198,15 @@ export function deleteMails(data, networkEmail, place = "") {
       );
     }
     dispatch(getFastMails(networkEmail));
+  };
+}
+
+export function updateProfile(photoUrl, displayName, idToken, apiToken) {
+  return async (dispatch) => {
+    await axios.post(
+      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiToken}`,
+      { idToken, displayName, photoUrl, returnSecureToken: false }
+    );
+    dispatch(getUserInfo(idToken));
   };
 }
